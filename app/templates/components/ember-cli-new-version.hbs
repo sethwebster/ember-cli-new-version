@@ -1,0 +1,5 @@
+{{#if message}}
+  <div class='update-notification col-xs-12 alert alert-warning'>
+    {{message}} {{#if showReload}}<a href="" {{action 'reload'}} class='btn btn-default'>Reload</a>{{/if}}
+  </div>
+{{/if}}
