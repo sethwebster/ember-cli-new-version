@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-new-version",
-  "version": "1.0.1-alpha.6",
+  "version": "1.0.1-alpha.7",
   "description": "A convention based update notification for Ember. With this addon, you can detect a new version and notify the user to refresh the page",
   "directories": {
     "doc": "doc",
@@ -41,7 +41,11 @@
     "ember-try": "~0.0.8"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "version",
+    "update",
+    "alert",
+    "new version"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5"
