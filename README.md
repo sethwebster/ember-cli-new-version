@@ -1,25 +1,25 @@
-# Ember-cli-new-version
+# ember-cli-new-version
 ---
 A convention-based version update notifier.
 
 ## Usage
 
 1. Add this add-on as you would any other:
-```bash
-> ember install ember-cli-new-version
-```
+  ```bash
+  > ember install ember-cli-new-version
+  ```
 
 2. Add a version file to your app, eg:
-_./public/VERSION.txt_
-
-```bash
-1.0.0
-```
+  _./public/VERSION.txt_
+  
+  ```bash
+  1.0.0
+  ```
 
 3. Include the component in your view:
-```handlebars
-{{ember-cli-new-version}}
-```
+  ```handlebars
+  {{ember-cli-new-version}}
+  ```
 
 **viola**!
 
@@ -33,6 +33,21 @@ _./public/VERSION.txt_
 
 ```handlebars
 {{ember-cli-new-version updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}
+```
+
+### Custom Notification ###
+
+By default the notification is styled as a Bootstrap Alert. If you want custom layouts or
+to use a different framework, then you can define your own markup for the notification.
+
+```hbs
+{{#ember-cli-new-version as |version lastVersion reload close|}}
+  <div class="custom-notification">
+    Reload to update to the new version ({{version}}) of this application
+    <button type="button" onclick={{action reload}}>Reload</button>
+    <button type="button" onclick={{action close}}>Close</button>
+  </div>
+{{/ember-cli-new-version}}
 ```
 
 ## Contributing
