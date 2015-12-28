@@ -1,6 +1,8 @@
 # ember-cli-new-version
 ---
 [ ![Codeship Status for sethwebster/ember-cli-new-version](https://codeship.com/projects/ff91d8b0-8f28-0133-7b3b-2e70819c478c/status?branch=master)](https://codeship.com/projects/124163)
+[![npm version](https://badge.fury.io/js/ember-cli-new-version.svg)](https://badge.fury.io/js/ember-cli-new-version)
+[![Ember Observer Score](http://emberobserver.com/badges/ember-cli-new-version.svg)](http://emberobserver.com/addons/ember-cli-new-version)
 
 A convention-based version update notifier.
 
