@@ -1,6 +1,5 @@
 # Ember-cli-new-version
 ---
-
 [ ![Codeship Status for sethwebster/ember-cli-new-version](https://codeship.com/projects/ff91d8b0-8f28-0133-7b3b-2e70819c478c/status?branch=master)](https://codeship.com/projects/124163)
 
 A convention-based version update notifier.
