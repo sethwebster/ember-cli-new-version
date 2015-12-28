@@ -1,5 +1,9 @@
 {{#if message}}
-  <div class='update-notification col-xs-12 alert alert-warning'>
-    {{message}} {{#if showReload}}<a href="" {{action 'reload'}} class='btn btn-default'>Reload</a>{{/if}}
-  </div>
+  {{#if hasBlock}}
+    {{yield version lastVersion (action 'reload') (action 'close')}}
+  {{else}}
+    <div class='update-notification col-xs-12 alert alert-warning'>
+      {{message}} {{#if showReload}}<a href="" {{action 'reload'}} class='btn btn-default'>Reload</a>{{/if}}
+    </div>
+  {{/if}}
 {{/if}}

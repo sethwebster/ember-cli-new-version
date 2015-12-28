@@ -1,9 +1,12 @@
+/*jshint esnext:true */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  updateInterval: 5000,
+  updateInterval: 60000, // One Minute Default
   tagName: "div",
   versionFileName: "/VERSION.txt",
+  versionFilePath: Ember.computed.alias("versionFileName"),
   updateMessage:"This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload: true,  
   showReloadButton: Ember.computed.alias("showReload"),
@@ -20,13 +23,21 @@ export default Ember.Component.extend({
       }
 
       Ember.$.ajax(self.get("versionFileName")).then(function(res){
-        if (self.get('version') && self.compareVersions(res, self.get('version')) === -1) {
+        var currentVersion = self.get('version');
+        var newVersion = res && res.trim();
+        
+        if (currentVersion && self.compareVersions(newVersion, currentVersion) === -1) {
           var message = self.get("updateMessage")
-            .replace("{{oldVersion}}",self.get('version'))
-            .replace("{{newVersion}}",res);
-          self.set('message', message);
+            .replace("{{oldVersion}}",currentVersion)
+            .replace("{{newVersion}}",newVersion);
+            
+          self.setProperties({
+            message,
+            lastVersion: currentVersion
+          });
         }
-        self.set('version',res);
+        
+        self.set('version',newVersion);
         self.set('_timeout',setTimeout(function() {
           self.updateVersion();
         },self.get('updateInterval')));
@@ -57,6 +68,10 @@ export default Ember.Component.extend({
   actions: {
     reload() {
       location.reload();
+    },
+    
+    close() {
+      this.set('message', undefined);
     }
   }
 });
