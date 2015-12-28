@@ -1,8 +1,10 @@
 /*jshint esnext:true */
 
 import Ember from 'ember';
+import layout from './template';
 
 export default Ember.Component.extend({
+  layout: layout,
   updateInterval: 60000, // One Minute Default
   tagName: "div",
   versionFileName: "/VERSION.txt",
