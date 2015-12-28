@@ -1,10 +1,12 @@
+/*jshint esnext:true */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
   updateInterval: 60000, // One Minute Default
   tagName: "div",
   versionFileName: "/VERSION.txt",
-  versionPath: Ember.computed.alias("versionFileName"),
+  versionFilePath: Ember.computed.alias("versionFileName"),
   updateMessage:"This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload: true,  
   showReloadButton: Ember.computed.alias("showReload"),
