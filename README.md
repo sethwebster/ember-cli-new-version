@@ -18,7 +18,7 @@ _./public/VERSION.txt_
 
 3. Include the component in your view:
 ```handlebars
-{{ember-cli-new-version}}
+{{new-version-notifier}}
 ```
 
 **viola**!
@@ -32,7 +32,7 @@ _./public/VERSION.txt_
 * showReload - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
 
 ```handlebars
-{{ember-cli-new-version updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}
+{{new-version-notifier updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}
 ```
 
 ## Contributing
@@ -45,15 +45,5 @@ _./public/VERSION.txt_
 
 * `ember server`
 * Visit your app at http://localhost:4200.
-
-## Running Tests
-
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
