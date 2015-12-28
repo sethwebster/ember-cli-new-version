@@ -1,3 +1,3 @@
 import Ember from 'ember';
-import EmberCliNewVersion from 'ember-cli-new-version/components/ember-cli-new-version';
-export default EmberCliNewVersion;
+import NewVersionNotifier from 'ember-cli-new-version/components/new-version-notifier/component';
+export default NewVersionNotifier;
