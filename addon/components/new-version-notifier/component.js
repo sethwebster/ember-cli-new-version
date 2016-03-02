@@ -24,7 +24,7 @@ export default Ember.Component.extend({
         clearTimeout(currentTimeout);
       }
 
-      Ember.$.ajax(self.get("versionFileName")).then(function(res){
+      Ember.$.ajax(self.get("versionFileName"), { cache:false }).then(function(res){
         var currentVersion = self.get('version');
         var newVersion = res && res.trim();
         
