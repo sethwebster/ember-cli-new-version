@@ -1,5 +1,10 @@
 /*jshint esnext:true */
 
-import Ember from 'ember';
+import config from '../config/environment';
 import NewVersionNotifier from 'ember-cli-new-version/components/new-version-notifier/component';
-export default NewVersionNotifier;
+
+let versionFileName = `/${config.newVersion.fileName}` || '/VERSION.txt';
+
+export default NewVersionNotifier.extend({
+  versionFileName
+});

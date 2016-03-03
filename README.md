@@ -70,7 +70,7 @@ var app = new EmberApp(defaults, {
   fileName: 'MY-VERSION.txt'
 });
 ```
-This will result in `dist/MY-VERSION.txt` being created.
+This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
 
 ## Contributing
 
