@@ -52,6 +52,26 @@ to use a different framework, then you can define your own markup for the notifi
 {{/new-version-notifier}}
 ```
 
+## Automatic VERSION file creation
+
+You can opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
+
+```
+var app = new EmberApp(defaults, {
+  newVersion: true
+});
+```
+This will result in `dist/VERSION.txt` being created.
+
+To override the version filename:
+
+```
+var app = new EmberApp(defaults, {
+  fileName: 'MY-VERSION.txt'
+});
+```
+This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
+
 ## Contributing
 
 * `git clone` this repository

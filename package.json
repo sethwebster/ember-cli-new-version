@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-new-version",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A convention based update notification for Ember. With this addon, you can detect a new version and notify the user to refresh the page",
   "directories": {
     "doc": "doc",
@@ -22,6 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
+    "broccoli-file-creator": "^1.1.0",
     "ember-cli": "1.13.13",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-content-security-policy": "0.4.0",
@@ -48,7 +49,8 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
-    "ember-cli-htmlbars": "^1.0.1"
+    "ember-cli-htmlbars": "^1.0.1",
+    "broccoli-file-creator": "^1.1.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
