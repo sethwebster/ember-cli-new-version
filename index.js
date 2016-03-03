@@ -6,6 +6,9 @@ var writeFile = require('broccoli-file-creator');
 module.exports = {
   name: 'ember-cli-new-version',
 
+  /*
+  Store config from `ember-cli-build.js`
+   */
   included: function(app, parentAddon) {
     this.options = app.options.newVersion || {};
 
@@ -14,6 +17,20 @@ module.exports = {
     }
   },
 
+  /*
+  Set options on the environment configuration object so they can
+  be accessed via `import config from '../config/environment';`
+   */
+  config: function(env, baseConfig) {
+    if (this.options && this.options.fileName) {
+      return { newVersion: this.options };
+    }
+  },
+
+  /*
+  Generate version file automatically
+  based on package.json of consuming application.
+   */
   treeForPublic: function() {
     var content = this.parent.pkg.version || '';
     var fileName = this.options.fileName;
