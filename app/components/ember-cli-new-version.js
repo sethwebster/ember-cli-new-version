@@ -1,3 +1,2 @@
-import Ember from 'ember';
-import NewVersionNotifier from 'ember-cli-new-version/components/new-version-notifier/component';
+import NewVersionNotifier from './new-version-notifier';
 export default NewVersionNotifier;

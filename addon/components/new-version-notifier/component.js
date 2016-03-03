@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   showReload: true,  
   showReloadButton: Ember.computed.alias("showReload"),
   init: function() {
-    this._super();
+    this._super(...arguments);
     this.updateVersion();
   },
   updateVersion() {
