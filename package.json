@@ -48,6 +48,7 @@
     "new version"
   ],
   "dependencies": {
+    "broccoli-file-creator": "^1.1.0",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-htmlbars": "^1.0.1",
     "broccoli-file-creator": "^1.1.0"
