@@ -1,6 +1,7 @@
 /*jshint esnext:true */
 
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 import layout from './template';
 
 export default Ember.Component.extend({
@@ -13,7 +14,7 @@ export default Ember.Component.extend({
   showReload: true,
   showReloadButton: Ember.computed.alias("showReload"),
   url: Ember.computed('versionFileName', function() {
-    var config = Ember.getOwner(this).resolveRegistration('config:environment');
+    var config = getOwner(this).resolveRegistration('config:environment');
     var versionFileName = this.get('versionFileName');
 
     if (!config || config.baseURL === '/') {
