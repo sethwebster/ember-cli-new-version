@@ -1,6 +1,7 @@
 /*jshint esnext:true */
 
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 import layout from './template';
 
 export default Ember.Component.extend({
@@ -10,8 +11,18 @@ export default Ember.Component.extend({
   versionFileName: "/VERSION.txt",
   versionFilePath: Ember.computed.alias("versionFileName"),
   updateMessage:"This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
-  showReload: true,  
+  showReload: true,
   showReloadButton: Ember.computed.alias("showReload"),
+  url: Ember.computed('versionFileName', function() {
+    var config = getOwner(this).resolveRegistration('config:environment');
+    var versionFileName = this.get('versionFileName');
+
+    if (!config || config.baseURL === '/') {
+      return versionFileName;
+    }
+
+    return config.baseURL + versionFileName;
+  }).readOnly(),
   init: function() {
     this._super(...arguments);
     this.updateVersion();
@@ -24,7 +35,7 @@ export default Ember.Component.extend({
         clearTimeout(currentTimeout);
       }
 
-      Ember.$.ajax(self.get("versionFileName"), { cache:false }).then(function(res){
+      Ember.$.ajax(self.get('url'), { cache:false }).then(function(res){
         var currentVersion = self.get('version');
         var newVersion = res && res.trim();
         
