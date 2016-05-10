@@ -38,22 +38,23 @@ export default Ember.Component.extend({
       Ember.$.ajax(self.get('url'), { cache:false }).then(function(res){
         var currentVersion = self.get('version');
         var newVersion = res && res.trim();
-        
+
         if (currentVersion && self.compareVersions(newVersion, currentVersion) === -1) {
           var message = self.get("updateMessage")
             .replace("{{oldVersion}}",currentVersion)
             .replace("{{newVersion}}",newVersion);
-            
+
           self.setProperties({
             message,
             lastVersion: currentVersion
           });
         }
-        
+
         self.set('version',newVersion);
-        self.set('_timeout',setTimeout(function() {
-          self.updateVersion();
-        },self.get('updateInterval')));
+      }).always(function() {
+          self.set('_timeout', setTimeout(function() {
+              self.updateVersion();
+          }, self.get('updateInterval')));
       });
     }, 10);
     self.set('_timeout', t);
@@ -78,11 +79,15 @@ export default Ember.Component.extend({
 
     return 0;
   },
+  willDestroy() {
+    this._super(...arguments);
+    clearTimeout(this.get('_timeout'));
+  },
   actions: {
     reload() {
       location.reload();
     },
-    
+
     close() {
       this.set('message', undefined);
     }
