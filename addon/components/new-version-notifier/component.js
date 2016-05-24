@@ -39,7 +39,7 @@ export default Ember.Component.extend({
         var currentVersion = self.get('version');
         var newVersion = res && res.trim();
 
-        if (currentVersion && self.compareVersions(newVersion, currentVersion) === -1) {
+        if (currentVersion && newVersion !== currentVersion) {
           var message = self.get("updateMessage")
             .replace("{{oldVersion}}",currentVersion)
             .replace("{{newVersion}}",newVersion);
@@ -58,26 +58,6 @@ export default Ember.Component.extend({
       });
     }, 10);
     self.set('_timeout', t);
-  },
-  compareVersions(left, right) {
-    var leftParts = left.split('.'),
-        rightParts = right.split('.');
-    for(var i=0;i<Math.min(leftParts.length, rightParts.length);i++) {
-      if (parseInt(leftParts[i])>parseInt(rightParts[i])) {
-        return -1;
-      }
-      if (parseInt(leftParts[i])<parseInt(rightParts[i])) {
-        return 1;
-      }
-    }
-    if (leftParts.length > rightParts.length) {
-      return -1;
-    }
-    if (rightParts.leght > leftParts.length) {
-      return 1;
-    }
-
-    return 0;
   },
   willDestroy() {
     this._super(...arguments);
