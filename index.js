@@ -2,6 +2,7 @@
 'use strict';
 
 var writeFile = require('broccoli-file-creator');
+var appVersion  = require('ember-cli-app-version');
 
 module.exports = {
   name: 'ember-cli-new-version',
@@ -22,9 +23,15 @@ module.exports = {
   be accessed via `import config from '../config/environment';`
    */
   config: function(env, baseConfig) {
+    var versionInfo = { APP: {} };
+    appVersion.config.call(this, env, versionInfo);
+
+
     if (this.options && this.options.fileName) {
-      return { newVersion: this.options };
+        versionInfo.newVersion = this.options;
     }
+
+    return versionInfo;
   },
 
   /*
@@ -32,7 +39,7 @@ module.exports = {
   based on package.json of consuming application.
    */
   treeForPublic: function() {
-    var content = this.parent.pkg.version || '';
+    var content = this.config().APP.version;
     var fileName = this.options.fileName;
 
     if (this.options.fileName) {
