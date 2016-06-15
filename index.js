@@ -9,7 +9,7 @@ module.exports = {
   /*
   Store config from `ember-cli-build.js`
    */
-  included: function(app, parentAddon) {
+  included: function(app/*, parentAddon*/) {
     this.options = app.options.newVersion || {};
 
     if (this.options === true) {
@@ -21,7 +21,7 @@ module.exports = {
   Set options on the environment configuration object so they can
   be accessed via `import config from '../config/environment';`
    */
-  config: function(env, baseConfig) {
+  config: function(/*env, baseConfig*/) {
     if (this.options && this.options.fileName) {
       return { newVersion: this.options };
     }
