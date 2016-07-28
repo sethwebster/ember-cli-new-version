@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     var config = getOwner(this).resolveRegistration('config:environment');
     var versionFileName = this.get('versionFileName');
 
-    if (!config || config.baseURL === '/') {
+    if (!config || config.baseURL === '/' || config.rootURL) {
       return versionFileName;
     }
 
