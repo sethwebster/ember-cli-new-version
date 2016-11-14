@@ -16,12 +16,13 @@ export default Ember.Component.extend({
   url: Ember.computed('versionFileName', function() {
     var config = getOwner(this).resolveRegistration('config:environment');
     var versionFileName = this.get('versionFileName');
+    var baseUrl = config.rootURL || config.baseURL;
 
-    if (!config || config.baseURL === '/') {
+    if (!config || baseUrl === '/') {
       return versionFileName;
     }
 
-    return config.baseURL + versionFileName;
+    return baseUrl + versionFileName;
   }).readOnly(),
   init: function() {
     this._super(...arguments);
