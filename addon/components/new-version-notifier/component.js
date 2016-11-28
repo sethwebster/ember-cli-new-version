@@ -24,46 +24,56 @@ export default Ember.Component.extend({
 
     return baseUrl + versionFileName;
   }).readOnly(),
+  
   init: function() {
     this._super(...arguments);
     this.updateVersion();
   },
+  
   updateVersion() {
-    var self = this;
-    var t = setTimeout(function(){
-      var currentTimeout = self.get('_timeout');
+    var t = setTimeout(() => {
+      let currentTimeout = this.get('_timeout');
+      let url = this.get('url');
+      
       if (currentTimeout) {
         clearTimeout(currentTimeout);
       }
 
-      Ember.$.ajax(self.get('url'), { cache:false }).then(function(res){
-        var currentVersion = self.get('version');
-        var newVersion = res && res.trim();
+      Ember.$.ajax(url, { cache: false }).then((res) => {
+        let currentVersion = this.get('version');
+        let newVersion = res && res.trim();
+        let compareVersions = this.get('compareVersions');
+        let versionChanged = typeof compareVersions === 'function' ?
+          compareVersions(currentVersion, newVersion) :
+          currentVersion && newVersion !== currentVersion;
 
-        if (currentVersion && newVersion !== currentVersion) {
-          var message = self.get("updateMessage")
-            .replace("{{oldVersion}}",currentVersion)
-            .replace("{{newVersion}}",newVersion);
+        if (versionChanged) {
+          let message = this.get("updateMessage")
+            .replace("{{oldVersion}}", currentVersion)
+            .replace("{{newVersion}}", newVersion);
 
-          self.setProperties({
+          this.setProperties({
             message,
             lastVersion: currentVersion
           });
         }
 
-        self.set('version',newVersion);
-      }).always(function() {
-          self.set('_timeout', setTimeout(function() {
-              self.updateVersion();
-          }, self.get('updateInterval')));
+        this.set('version', newVersion);
+      }).always(() => {
+        this.set('_timeout', setTimeout(() => {
+          this.updateVersion();
+        }, this.get('updateInterval')));
       });
     }, 10);
-    self.set('_timeout', t);
+    
+    this.set('_timeout', t);
   },
+  
   willDestroy() {
     this._super(...arguments);
     clearTimeout(this.get('_timeout'));
   },
+  
   actions: {
     reload() {
       location.reload();
