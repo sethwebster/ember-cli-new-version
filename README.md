@@ -1,5 +1,5 @@
 # ember-cli-new-version
----
+
 [ ![Codeship Status for sethwebster/ember-cli-new-version](https://codeship.com/projects/ff91d8b0-8f28-0133-7b3b-2e70819c478c/status?branch=master)](https://codeship.com/projects/124163)
 
 A convention-based version update notifier.
@@ -27,11 +27,11 @@ A convention-based version update notifier.
 
 ### Options ###
 ----
-* updateInterval - the amount of time, in milliseconds, to wait between version checks **default: 5000**
-* versionFileName - the name of the file on the server to check **default: /VERSION.txt**
-* updateMessage - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
+* `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 5000**
+* `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
+* `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."
-* showReload - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
+* `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
 
 ```handlebars
 {{new-version-notifier updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}
@@ -56,7 +56,7 @@ to use a different framework, then you can define your own markup for the notifi
 
 You can opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
 
-```
+```js
 var app = new EmberApp(defaults, {
   newVersion: true
 });
@@ -65,7 +65,7 @@ This will result in `dist/VERSION.txt` being created.
 
 To override the version filename:
 
-```
+```js
 var app = new EmberApp(defaults, {
   fileName: 'MY-VERSION.txt'
 });
