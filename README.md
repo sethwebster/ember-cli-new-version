@@ -33,6 +33,7 @@ A convention-based version update notifier.
 * `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."
 * `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
+* `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
 
 ```handlebars
 {{new-version-notifier updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}
