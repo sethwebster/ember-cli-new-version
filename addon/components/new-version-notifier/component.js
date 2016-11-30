@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   updateMessage:"This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload: true,
   showReloadButton: Ember.computed.alias("showReload"),
+  reloadButtonText: "Reload",
   url: Ember.computed('versionFileName', function() {
     var config = getOwner(this).resolveRegistration('config:environment');
     var versionFileName = this.get('versionFileName');
