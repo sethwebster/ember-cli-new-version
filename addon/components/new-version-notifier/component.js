@@ -1,23 +1,37 @@
-/*jshint esnext:true */
+import Ember             from 'ember';
+import layout            from './template';
+import { task, timeout } from 'ember-concurrency';
 
-import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
-import layout from './template';
+const {
+  getOwner,
+  computed,
+  inject: {service},
+  Component,
+  get,
+  testing
+} = Ember;
 
-export default Ember.Component.extend({
+let taskRunCounter = 0;
+
+const MAX_COUNT_IN_TESTING = 10;
+
+export default Component.extend({
   layout: layout,
-  updateInterval: 60000, // One Minute Default
-  tagName: "div",
-  versionFileName: "/VERSION.txt",
-  versionFilePath: Ember.computed.alias("versionFileName"),
-  updateMessage:"This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
-  showReload: true,
-  showReloadButton: Ember.computed.alias("showReload"),
-  reloadButtonText: "Reload",
-  url: Ember.computed('versionFileName', function() {
-    var config = getOwner(this).resolveRegistration('config:environment');
-    var versionFileName = this.get('versionFileName');
-    var baseUrl = config.rootURL || config.baseURL;
+
+  ajax: service(),
+
+  updateInterval   : testing ? 0 : 60000, // One Minute Default
+  versionFileName  : "/VERSION.txt",
+  updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
+  showReload       : true,
+  reloadButtonText : "Reload",
+  lastVersion      : null,
+  version          : null,
+
+  url: computed('versionFileName', function () {
+    const config          = getOwner(this).resolveRegistration('config:environment');
+    const versionFileName = get(config, 'newVersion.fileName') || this.get('versionFileName');
+    const baseUrl         = config.rootURL || config.baseURL;
 
     if (!config || baseUrl === '/') {
       return versionFileName;
@@ -25,49 +39,50 @@ export default Ember.Component.extend({
 
     return baseUrl + versionFileName;
   }).readOnly(),
-  init: function() {
-    this._super(...arguments);
-    this.updateVersion();
-  },
-  updateVersion() {
-    var self = this;
-    var t = setTimeout(function(){
-      var currentTimeout = self.get('_timeout');
-      if (currentTimeout) {
-        clearTimeout(currentTimeout);
-      }
 
-      Ember.$.ajax(self.get('url'), { cache:false }).then(function(res){
-        var currentVersion = self.get('version');
-        var newVersion = res && res.trim();
+  init () {
+    this._super(...arguments);
+
+    if (testing) { taskRunCounter = 0; }
+
+    this.get('updateVersion').perform();
+  },
+
+  updateVersion: task(function * () {
+    const url = this.get('url');
+
+    yield this.get('ajax')
+      .request(url, { cache: false, dataType: 'text' })
+      .then(res => {
+        const currentVersion = this.get('version');
+        const newVersion     = res && res.trim();
 
         if (currentVersion && newVersion !== currentVersion) {
-          var message = self.get("updateMessage")
-            .replace("{{oldVersion}}",currentVersion)
-            .replace("{{newVersion}}",newVersion);
+          const message = this.get('updateMessage')
+            .replace('{{oldVersion}}', currentVersion)
+            .replace('{{newVersion}}', newVersion);
 
-          self.setProperties({
+          this.setProperties({
             message,
             lastVersion: currentVersion
           });
         }
 
-        self.set('version',newVersion);
-      }).always(function() {
-          self.set('_timeout', setTimeout(function() {
-              self.updateVersion();
-          }, self.get('updateInterval')));
+        this.set('version', newVersion);
       });
-    }, 10);
-    self.set('_timeout', t);
-  },
-  willDestroy() {
-    this._super(...arguments);
-    clearTimeout(this.get('_timeout'));
-  },
+
+    const updateInterval = this.get('updateInterval');
+    yield timeout(updateInterval);
+
+    if (testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
+
+    this.get('updateVersion').perform();
+  }),
+
+
   actions: {
     reload() {
-      location.reload();
+      window.location.reload(true);
     },
 
     close() {

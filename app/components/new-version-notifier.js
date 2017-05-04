@@ -1,10 +1,1 @@
-/*jshint esnext:true */
-
-import config from '../config/environment';
-import NewVersionNotifier from 'ember-cli-new-version/components/new-version-notifier/component';
-
-let versionFileName = config.newVersion ? `/${config.newVersion.fileName}` : '/VERSION.txt';
-
-export default NewVersionNotifier.extend({
-  versionFileName
-});
+export { default } from 'ember-cli-new-version/components/new-version-notifier/component';
