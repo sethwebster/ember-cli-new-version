@@ -12,8 +12,9 @@ module.exports = {
   included: function(app/*, parentAddon*/) {
     this.options = app.options.newVersion || {};
 
-    if (this.options === true) {
-      this.options = { fileName: 'VERSION.txt' };
+    if (this.options.enabled === true) {
+      this.options.fileName = this.options.fileName || 'VERSION.txt';
+      this.options.prepend  = this.options.prepend  || '';
     }
   },
 
@@ -22,7 +23,7 @@ module.exports = {
   be accessed via `import config from '../config/environment';`
    */
   config: function(/*env, baseConfig*/) {
-    if (this.options && this.options.fileName) {
+    if (this.options && this.options.enabled) {
       return { newVersion: this.options };
     }
   },
@@ -32,10 +33,10 @@ module.exports = {
   based on package.json of consuming application.
    */
   treeForPublic: function() {
-    var content = this.parent.pkg.version || '';
+    var content  = this.parent.pkg.version || '';
     var fileName = this.options.fileName;
 
-    if (this.options.fileName) {
+    if (this.options.enabled) {
       this.ui.writeLine('Created ' + fileName);
       return writeFile(fileName, content);
     }

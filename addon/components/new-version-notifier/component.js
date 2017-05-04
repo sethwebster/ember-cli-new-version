@@ -29,7 +29,7 @@ export default Component.extend({
   url: computed('versionFileName', function () {
     const config          = getOwner(this).resolveRegistration('config:environment');
     const versionFileName = get(config, 'newVersion.fileName') || this.get('versionFileName');
-    const baseUrl         = config.rootURL || config.baseURL;
+    const baseUrl         = get(config, 'newVersion.prepend')  || config.rootURL || config.baseURL;
 
     if (!config || baseUrl === '/') {
       return versionFileName;
