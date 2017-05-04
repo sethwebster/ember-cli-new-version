@@ -1,11 +1,11 @@
 import Ember             from 'ember';
+import request           from 'ember-ajax/request';
 import layout            from './template';
 import { task, timeout } from 'ember-concurrency';
 
 const {
   getOwner,
   computed,
-  inject: {service},
   Component,
   get,
   testing
@@ -17,8 +17,6 @@ const MAX_COUNT_IN_TESTING = 10;
 
 export default Component.extend({
   layout: layout,
-
-  ajax: service(),
 
   updateInterval   : testing ? 0 : 60000, // One Minute Default
   versionFileName  : "/VERSION.txt",
@@ -51,8 +49,7 @@ export default Component.extend({
   updateVersion: task(function * () {
     const url = this.get('url');
 
-    yield this.get('ajax')
-      .request(url, { cache: false, dataType: 'text' })
+    yield request(url, { cache: false, dataType: 'text' })
       .then(res => {
         const currentVersion = this.get('version');
         const newVersion     = res && res.trim();

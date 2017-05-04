@@ -54,7 +54,7 @@ test('it works', function (assert) {
     assert.equal(this.$().text().trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.1 to v1.0.2. Please save any work, then refresh browser to see changes. Reload      ×');
 
     done();
-  }, 200);
+  }, 150);
 
   later(() => {
     assert.equal(callCount, 5);
@@ -93,5 +93,5 @@ test('one version', function (assert) {
     assert.equal(this.get('lastVersion'), null);
 
     done();
-  }, 400);
+  }, 350);
 });
