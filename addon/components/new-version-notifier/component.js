@@ -18,6 +18,7 @@ const MAX_COUNT_IN_TESTING = 10;
 export default Component.extend({
   layout: layout,
 
+  tagName          : '',
   updateInterval   : testing ? 0 : 60000, // One Minute Default
   versionFileName  : "/VERSION.txt",
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",

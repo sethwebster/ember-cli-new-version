@@ -3,7 +3,11 @@
   "version": "1.0.8",
   "description": "A convention based update notification for Ember. With this addon, you can detect a new version and notify the user to refresh the page",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "version",
+    "update",
+    "alert",
+    "new version"
   ],
   "license": "MIT",
   "author": "",
