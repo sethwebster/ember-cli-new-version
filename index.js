@@ -10,10 +10,10 @@ module.exports = {
   Store config from `ember-cli-build.js`
    */
   included: function(app, parentAddon) {
-    this.options = app.options.newVersion || {};
+    this._options = app.options.newVersion || {};
 
-    if (this.options === true) {
-      this.options = { fileName: 'VERSION.txt' };
+    if (this._options === true) {
+      this._options = { fileName: 'VERSION.txt' };
     }
   },
 
@@ -22,8 +22,8 @@ module.exports = {
   be accessed via `import config from '../config/environment';`
    */
   config: function(env, baseConfig) {
-    if (this.options && this.options.fileName) {
-      return { newVersion: this.options };
+    if (this._options && this._options.fileName) {
+      return { newVersion: this._options };
     }
   },
 
@@ -33,9 +33,9 @@ module.exports = {
    */
   treeForPublic: function() {
     var content = this.parent.pkg.version || '';
-    var fileName = this.options.fileName;
+    var fileName = this._options.fileName;
 
-    if (this.options.fileName) {
+    if (this._options.fileName) {
       this.ui.writeLine('Created ' + fileName);
       return writeFile(fileName, content);
     }
