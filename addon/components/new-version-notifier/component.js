@@ -69,7 +69,9 @@ export default Ember.Component.extend({
   },
   actions: {
     reload() {
-      location.reload();
+      if(typeof window !== 'undefined' && window.location) {
+        window.location.reload();
+      }
     },
 
     close() {
