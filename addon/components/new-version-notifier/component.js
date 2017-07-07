@@ -36,7 +36,9 @@ export default Ember.Component.extend({
         clearTimeout(currentTimeout);
       }
 
-      if(!Ember.$) { return; }
+      if(!Ember.$) {
+        return;
+      }
 
       Ember.$.ajax(self.get('url'), { cache:false }).then(function(res){
         var currentVersion = self.get('version');
