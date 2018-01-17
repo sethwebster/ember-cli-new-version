@@ -50,37 +50,43 @@ export default Component.extend({
   updateVersion: task(function * () {
     const url = this.get('url');
 
-    yield request(url, { cache: false, dataType: 'text' })
-      .then(res => {
-        const currentVersion = this.get('version');
-        const newVersion     = res && res.trim();
+    try {
+      yield request(url, { cache: false, dataType: 'text' })
+        .then(res => {
+          const currentVersion = this.get('version');
+          const newVersion     = res && res.trim();
 
-        if (currentVersion && newVersion !== currentVersion) {
-          const message = this.get('updateMessage')
-            .replace('{{oldVersion}}', currentVersion)
-            .replace('{{newVersion}}', newVersion);
+          if (currentVersion && newVersion !== currentVersion) {
+            const message = this.get('updateMessage')
+              .replace('{{oldVersion}}', currentVersion)
+              .replace('{{newVersion}}', newVersion);
 
-          this.setProperties({
-            message,
-            lastVersion: currentVersion
-          });
-        }
+            this.setProperties({
+              message,
+              lastVersion: currentVersion
+            });
+          }
 
-        this.set('version', newVersion);
-      });
+          this.set('version', newVersion);
+        });
+    } catch (e){
+      if (!testing) { throw e; }
+    } finally {
+      const updateInterval = this.get('updateInterval');
+      yield timeout(updateInterval);
 
-    const updateInterval = this.get('updateInterval');
-    yield timeout(updateInterval);
+      if (testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
 
-    if (testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
-
-    this.get('updateVersion').perform();
+      this.get('updateVersion').perform();
+    }
   }),
 
 
   actions: {
     reload() {
-      window.location.reload(true);
+      if (typeof window !== 'undefined' && window.location) {
+        window.location.reload(true);
+      }
     },
 
     close() {

@@ -1,7 +1,7 @@
-/* jshint node: true */
+/* eslint-env node */
 'use strict';
 
-var writeFile = require('broccoli-file-creator');
+const writeFile = require('broccoli-file-creator');
 
 module.exports = {
   name: 'ember-cli-new-version',
@@ -33,8 +33,8 @@ module.exports = {
   based on package.json of consuming application.
    */
   treeForPublic: function() {
-    var content  = this.parent.pkg.version || '';
-    var fileName = this._options.fileName;
+    let content  = this.parent.pkg.version || '';
+    let fileName = this._options.fileName;
 
     if (this._options.enabled) {
       this.ui.writeLine('Created ' + fileName);
