@@ -7,7 +7,7 @@ module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
     // Add options here
     newVersion: {
-      fileName: 'MY-VERSION.txt'
+      enabled: true
     }
   });
 

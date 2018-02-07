@@ -21,7 +21,12 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    'ember-cli-mirage': {
+      enabled: false
+    },
+
   };
 
   if (environment === 'development') {
@@ -34,6 +39,8 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
+    ENV['ember-cli-mirage'].enabled = true;
+
     ENV.locationType = 'none';
 
     // keep test console output quieter
