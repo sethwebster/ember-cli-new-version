@@ -31,7 +31,7 @@ test('it works', function (assert) {
 
   window.server.get('/VERSION.txt', function(){
     ++callCount;
-
+    
     return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
   });
 
@@ -64,7 +64,7 @@ test('it works', function (assert) {
     assert.equal(this.$().text().trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.2 to v1.0.3. Please save any work, then refresh browser to see changes. Reload      ×');
 
     done();
-  }, 550);
+  }, 650);
 });
 
 test('one version', function (assert) {
