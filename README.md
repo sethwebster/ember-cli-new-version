@@ -59,7 +59,9 @@ You can opt-in to automatically generating a `VERSION.txt` during the build proc
 
 ```js
 var app = new EmberApp(defaults, {
-  newVersion: true
+  newVersion: {
+    enabled: true,
+  }
 });
 ```
 This will result in `dist/VERSION.txt` being created.
@@ -68,7 +70,11 @@ To override the version filename:
 
 ```js
 var app = new EmberApp(defaults, {
-  fileName: 'MY-VERSION.txt'
+  newVersion: {
+    enabled: true,
+    fileName: 'MY-VERSION.txt'
+  }
+  
 });
 ```
 This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
