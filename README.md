@@ -12,7 +12,7 @@ A convention-based version update notifier.
   ```
 
 2. Add a version file to your app, eg:
-  _./public/VERSION.txt_
+  _./public/MY-VERSION.txt_
 
   ```bash
   1.0.0
@@ -28,7 +28,7 @@ A convention-based version update notifier.
 ### Options ###
 ----
 * `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 5000**
-* `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
+* `versionFileName` - the name of the file on the server to check **default: /MY-VERSION.txt**
 * `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."
 * `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
@@ -55,7 +55,7 @@ to use a different framework, then you can define your own markup for the notifi
 
 ## Automatic VERSION file creation
 
-You can opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
+You can opt-in to automatically generating a `MY-VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/MY-VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
 
 ```js
 var app = new EmberApp(defaults, {
@@ -64,7 +64,7 @@ var app = new EmberApp(defaults, {
   }
 });
 ```
-This will result in `dist/VERSION.txt` being created.
+This will result in `dist/MY-VERSION.txt` being created.
 
 To override the version filename:
 
