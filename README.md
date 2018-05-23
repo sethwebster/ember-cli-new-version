@@ -27,7 +27,7 @@ A convention-based version update notifier.
 
 ### Options ###
 ----
-* `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 5000**
+* `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
 * `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
 * `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."

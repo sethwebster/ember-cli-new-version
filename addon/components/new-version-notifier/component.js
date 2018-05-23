@@ -14,12 +14,13 @@ const {
 let taskRunCounter = 0;
 
 const MAX_COUNT_IN_TESTING = 10;
+const ONE_MINUTE = 60000;
 
 export default Component.extend({
   layout: layout,
 
   tagName          : '',
-  updateInterval   : testing ? 0 : 60000, // One Minute Default
+  updateInterval   : testing ? 0 : ONE_MINUTE,
   versionFileName  : "/VERSION.txt",
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
@@ -72,7 +73,9 @@ export default Component.extend({
     } catch (e){
       if (!testing) { throw e; }
     } finally {
-      const updateInterval = this.get('updateInterval');
+      let updateInterval = this.get('updateInterval');
+      if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
+        
       yield timeout(updateInterval);
 
       if (testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
