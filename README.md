@@ -88,10 +88,12 @@ All you have to do is install `ember-cli-app-version` and enable a flag in `embe
 Then an update is triggered based on full version strings with build metadata such as `1.0.0-beta-2-e1dffe1`.
 
 ```js
-newVersion: {
-  enabled: true,
-  useAppVersion: true
-}
+var app = new EmberApp(defaults, {
+  newVersion: {
+    enabled: true,
+    useAppVersion: true
+  }  
+});
 ```
 
 ## Contributing
