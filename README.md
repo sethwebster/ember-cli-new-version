@@ -79,6 +79,23 @@ var app = new EmberApp(defaults, {
 ```
 This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
 
+### Supports `ember-cli-app-version`
+
+Since version 1.6.0 this addons is able to use the version string provided by [ember-cli-app-version](https://github.com/ember-cli/ember-cli-app-version).
+
+All you have to do is install `ember-cli-app-version` and enable a flag in `ember-cli-build.js`.
+
+Then an update is triggered based on full version strings with build metadata such as `1.0.0-beta-2-e1dffe1`.
+
+```js
+var app = new EmberApp(defaults, {
+  newVersion: {
+    enabled: true,
+    useAppVersion: true
+  }  
+});
+```
+
 ## Contributing
 
 * `git clone` this repository
