@@ -6,39 +6,55 @@ const writeFile = require('broccoli-file-creator');
 module.exports = {
   name: 'ember-cli-new-version',
 
-  /*
-  Store config from `ember-cli-build.js`
+  init(parent, project) {
+    this._super.init && this._super.init.apply(this, arguments);
+
+    this._options = null;
+    this._appVersion = null;
+  },
+
+  /**
+   * Store `ember-cli-build.js` options
    */
   included: function(app/*, parentAddon*/) {
     this._options = app.options.newVersion || {};
-
     if (this._options.enabled === true) {
       this._options.fileName = this._options.fileName || 'VERSION.txt';
       this._options.prepend  = this._options.prepend  || '';
+      this._options.useAppVersion = this._options.useAppVersion || false;
     }
   },
 
-  /*
-  Set options on the environment configuration object so they can
-  be accessed via `import config from '../config/environment';`
+  /**
+   * Copy version from `ember-cli-app-version`
    */
-  config: function(/*env, baseConfig*/) {
-    if (this._options && this._options.enabled) {
-      return { newVersion: this._options };
-    }
+  config: function(env, baseConfig) {
+    this._appVersion = baseConfig.APP.version || null;
   },
 
-  /*
-  Generate version file automatically
-  based on package.json of consuming application.
+  /**
+   * Write version file
+   *
+   * based on
+   *  - ember-cli-app-version if installed
+   *  - package.json of consuming application or
    */
   treeForPublic: function() {
-    let content  = this.parent.pkg.version || '';
-    let fileName = this._options.fileName;
+    let detectedVersion;
 
-    if (this._options.enabled) {
-      this.ui.writeLine('Created ' + fileName);
-      return writeFile(fileName, content);
+    if (this._options.useAppVersion && this._appVersion) {
+      detectedVersion = this._appVersion;
+    }
+
+    if (!detectedVersion) {
+      detectedVersion = this.parent.pkg.version;
+    }
+
+    if (detectedVersion && this._options.enabled) {
+      const fileName = this._options.fileName;
+
+      this.ui.writeLine(`Created ${fileName} with ${detectedVersion}`);
+      return writeFile(fileName, detectedVersion);
     }
   }
 };
