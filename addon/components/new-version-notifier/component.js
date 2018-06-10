@@ -22,6 +22,7 @@ export default Component.extend({
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
   reloadButtonText : "Reload",
+  onNewVersion(/* version, lastVersion */) {},
 
   // internal state:
   lastVersion      : null,
@@ -72,6 +73,7 @@ export default Component.extend({
               message,
               lastVersion: currentVersion
             });
+            this.onNewVersion(newVersion, currentVersion);
           }
 
           this.set('version', newVersion);
@@ -81,11 +83,12 @@ export default Component.extend({
     } finally {
       let updateInterval = this.get('updateIntervalWithTesting');
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
-        
+
       yield timeout(updateInterval);
 
       if (Ember.testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
 
+      if (Ember.testing && !get(this, 'enableInTests')) { return; }
       this.get('updateVersion').perform();
     }
   }),

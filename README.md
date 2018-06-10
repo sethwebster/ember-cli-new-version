@@ -33,6 +33,7 @@ A convention-based version update notifier.
   eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."
 * `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
 * `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
+* `onNewVersion(newVersion, oldVersion)` - a closure action that is called whenever a new version is detected. You can use this to track the version status elsewhere in your app (outside the component).
 
 ```handlebars
 {{new-version-notifier updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}

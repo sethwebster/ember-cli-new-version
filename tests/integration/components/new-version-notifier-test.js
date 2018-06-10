@@ -4,6 +4,7 @@ import { render, find, waitUntil } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupMirage from '../../helpers/setup-mirage';
 import Mirage from 'ember-cli-mirage';
+import { set } from '@ember/object';
 
 module('Integration | Component | new version notifier', function(hooks) {
   setupRenderingTest(hooks);
@@ -38,13 +39,40 @@ module('Integration | Component | new version notifier', function(hooks) {
     assert.equal(callCount, 2);
     assert.equal(find("#version-value").textContent, "v1.0.2");
     assert.equal(find("#last-version-value").textContent, "v1.0.1");
-    // assert.equal(find('*').textContent.trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.1 to v1.0.2. Please save any work, then refresh browser to see changes. Reload      ×');
 
     await waitUntil(() => callCount === 6, { timeout: 490 });
     assert.equal(callCount, 6);
     assert.equal(find("#version-value").textContent, "v1.0.3");
     assert.equal(find("#last-version-value").textContent, "v1.0.2");
-    // assert.equal(find('*').textContent.trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.2 to v1.0.3. Please save any work, then refresh browser to see changes. Reload      ×');
+  });
+
+  test('it calls onNewVersion when a new version is detected', async function(assert) {
+    assert.expect(4);
+    let done = assert.async(2);
+
+    let callCount = 0;
+
+    this.server.get('/VERSION.txt', function(){
+      ++callCount;
+      return `v1.0.${callCount}`;
+    });
+
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      assert.equal(newVersion, "v1.0.2", "newVersion v1.0.2 is sent to onNewVersion");
+      assert.equal(oldVersion, "v1.0.1", "oldVersion v1.0.1 is sent to onNewVersion");
+      done();
+    });
+    set(this, "enableInTests", true);
+
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=enableInTests onNewVersion=onNewVersion}}`);
+
+    await waitUntil(() => callCount === 1, { timeout: 95 });
+    assert.equal(callCount, 1, "1 call was made");
+
+    await waitUntil(() => callCount === 2, { timeout: 190 });
+    assert.equal(callCount, 2);
+    set(this, "enableInTests", false); // stop the loop from continuing
+    done();
   });
 
   test('one version', async function(assert) {
@@ -57,13 +85,15 @@ module('Integration | Component | new version notifier', function(hooks) {
       return 'v1.0.3';
     });
 
-    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true}}`);
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      throw `unexpected call to onNewVersion with ${newVersion}, ${oldVersion}`;
+    });
+
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
     assert.equal(find('*').textContent.trim(), '');
     assert.equal(callCount, 4);
-    // assert.equal(this.get('version'), 'v1.0.3');
-    // assert.equal(this.get('lastVersion'), null);
   });
 
   test('repeat on bad response', async function(assert) {
@@ -81,12 +111,14 @@ module('Integration | Component | new version notifier', function(hooks) {
       return 'v1.0.3';
     });
 
-    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true}}`);
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      throw `unexpected call to onNewVersion with ${newVersion}, ${oldVersion}`;
+    });
+
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
     assert.equal(find('*').textContent.trim(), '');
     assert.equal(callCount, 4);
-    // assert.equal(this.get('version'), 'v1.0.3');
-    // assert.equal(this.get('lastVersion'), null);
   });
 });
