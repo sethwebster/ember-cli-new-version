@@ -8,7 +8,6 @@ const {
   computed,
   Component,
   get,
-  testing
 } = Ember;
 
 let taskRunCounter = 0;
@@ -20,7 +19,7 @@ export default Component.extend({
   layout: layout,
 
   tagName          : '',
-  updateInterval   : testing ? 0 : ONE_MINUTE,
+  updateInterval   : Ember.testing ? 0 : ONE_MINUTE,
   versionFileName  : "/VERSION.txt",
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
@@ -43,7 +42,7 @@ export default Component.extend({
   init () {
     this._super(...arguments);
 
-    if (testing) { taskRunCounter = 0; }
+    if (Ember.testing) { taskRunCounter = 0; }
 
     this.get('updateVersion').perform();
   },
@@ -71,14 +70,14 @@ export default Component.extend({
           this.set('version', newVersion);
         });
     } catch (e){
-      if (!testing) { throw e; }
+      if (!Ember.testing) { throw e; }
     } finally {
       let updateInterval = this.get('updateInterval');
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
         
       yield timeout(updateInterval);
 
-      if (testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
+      if (Ember.testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
 
       this.get('updateVersion').perform();
     }
