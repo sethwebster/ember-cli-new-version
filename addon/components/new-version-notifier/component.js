@@ -15,11 +15,15 @@ export default Component.extend({
   layout: layout,
 
   tagName          : '',
-  updateInterval   : Ember.testing ? 0 : ONE_MINUTE,
+
+  enableInTests    : false,
+  updateInterval   : ONE_MINUTE,
   versionFileName  : "/VERSION.txt",
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
   reloadButtonText : "Reload",
+
+  // internal state:
   lastVersion      : null,
   version          : null,
 
@@ -40,8 +44,15 @@ export default Component.extend({
 
     if (Ember.testing) { taskRunCounter = 0; }
 
-    this.get('updateVersion').perform();
+    if (!Ember.testing || get(this, 'enableInTests')) {
+      this.get('updateVersion').perform();
+    }
   },
+
+  updateIntervalWithTesting: computed('updateInterval', 'enableInTests', function() {
+    let enableInTests = get(this, 'enableInTests');
+    return (!enableInTests && Ember.testing) ? 0 : get(this, 'updateInterval');
+  }),
 
   updateVersion: task(function * () {
     const url = this.get('url');
@@ -68,7 +79,7 @@ export default Component.extend({
     } catch (e){
       if (!Ember.testing) { throw e; }
     } finally {
-      let updateInterval = this.get('updateInterval');
+      let updateInterval = this.get('updateIntervalWithTesting');
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
         
       yield timeout(updateInterval);
