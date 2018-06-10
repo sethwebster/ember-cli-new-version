@@ -35,7 +35,7 @@ test('it works', function (assert) {
     return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
   });
 
-  this.render(hbs`{{new-version-notifier updateInterval=100 version=version lastVersion=lastVersion}}`);
+  this.render(hbs`{{new-version-notifier updateInterval=200 version=version lastVersion=lastVersion}}`);
 
   const done = assert.async(3);
 
@@ -55,7 +55,7 @@ test('it works', function (assert) {
     assert.equal(this.$().text().trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.1 to v1.0.2. Please save any work, then refresh browser to see changes. Reload      ×');
 
     done();
-  }, 150);
+  }, 300);
 
   later(() => {
     assert.equal(callCount, 6);
@@ -64,7 +64,7 @@ test('it works', function (assert) {
     assert.equal(this.$().text().trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.2 to v1.0.3. Please save any work, then refresh browser to see changes. Reload      ×');
 
     done();
-  }, 650);
+  }, 1150);
 });
 
 test('one version', function (assert) {
