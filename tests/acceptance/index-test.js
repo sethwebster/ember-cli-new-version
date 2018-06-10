@@ -1,12 +1,14 @@
 import { currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'dummy/tests/helpers/setup-mirage';
 
 module('Acceptance | index', function(hooks) {
   setupApplicationTest(hooks);
+  setupMirage(hooks);
 
   test('visiting /', async function(assert) {
-    window.server.get('/VERSION.txt', function(){
+    this.server.get('/VERSION.txt', function(){
       return 'v1.0.3';
     });
 

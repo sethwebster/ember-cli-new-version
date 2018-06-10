@@ -3,20 +3,13 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find } from '@ember/test-helpers';
 import hbs                          from 'htmlbars-inline-precompile';
-import startMirage                  from '../../helpers/setup-mirage-for-integration';
+import setupMirage                  from '../../helpers/setup-mirage-for-integration';
 import Mirage                       from 'ember-cli-mirage';
 
 
 module('Integration | Component | new version notifier', function(hooks) {
   setupRenderingTest(hooks);
-
-  hooks.beforeEach(function() {
-    startMirage(this.container);
-  });
-
-  hooks.afterEach(function() {
-    window.server.shutdown();
-  });
+  setupMirage(hooks);
 
   test('it works', async function(assert) {
     assert.expect(12);
@@ -28,7 +21,7 @@ module('Integration | Component | new version notifier', function(hooks) {
       lastVersion: null
     });
 
-    window.server.get('/VERSION.txt', function(){
+    this.server.get('/VERSION.txt', function(){
       ++callCount;
       
       return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
@@ -76,7 +69,7 @@ module('Integration | Component | new version notifier', function(hooks) {
       lastVersion: null
     });
 
-    window.server.get('/VERSION.txt', function(){
+    this.server.get('/VERSION.txt', function(){
       ++callCount;
 
       return 'v1.0.3';
@@ -106,7 +99,7 @@ module('Integration | Component | new version notifier', function(hooks) {
       lastVersion: null
     });
 
-    window.server.get('/VERSION.txt', function(){
+    this.server.get('/VERSION.txt', function(){
       ++callCount;
 
       if (callCount === 1) {
