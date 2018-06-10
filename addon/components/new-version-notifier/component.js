@@ -1,14 +1,10 @@
+import { getOwner } from '@ember/application';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 import Ember             from 'ember';
 import request           from 'ember-ajax/request';
 import layout            from './template';
 import { task, timeout } from 'ember-concurrency';
-
-const {
-  getOwner,
-  computed,
-  Component,
-  get,
-} = Ember;
 
 let taskRunCounter = 0;
 
