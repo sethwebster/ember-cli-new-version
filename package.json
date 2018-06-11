@@ -9,21 +9,22 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each"
+    "test": "ember test",
+    "test:all": "ember try:each"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/sethwebster/ember-cli-new-version.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "6.* || >= 7.*"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
     "ember-ajax": "^3.0.0",
-    "ember-cli": "~2.18.0",
+    "ember-cli": "~3.1.4",
     "ember-cli-dependency-checker": "^2.0.1",
     "ember-cli-eslint": "^4.1.0",
     "ember-cli-htmlbars-inline-precompile": "^0.4.3",
@@ -37,8 +38,13 @@
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
+    "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^4.2.1",
-    "ember-source": "~2.14.0",
+    "ember-source": "~3.1.0",
+    "ember-source-channel-url": "^1.0.1",
+    "ember-try": "^0.2.23",
+    "eslint-plugin-ember": "^5.0.0",
+    "eslint-plugin-node": "^6.0.1",
     "loader.js": "^4.5.1",
     "mirage": "0.0.7"
   },
@@ -50,10 +56,10 @@
     "new version"
   ],
   "dependencies": {
-    "ember-concurrency": "^0.8.12",
     "broccoli-file-creator": "^1.1.1",
     "ember-cli-babel": "^6.6.0",
-    "ember-cli-htmlbars": "^1.0.1"
+    "ember-cli-htmlbars": "^1.0.1",
+    "ember-concurrency": "^0.8.12"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

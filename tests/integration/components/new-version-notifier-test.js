@@ -1,132 +1,124 @@
-import Ember                        from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
-import hbs                          from 'htmlbars-inline-precompile';
-import startMirage                  from '../../helpers/setup-mirage-for-integration';
-import Mirage                       from 'ember-cli-mirage';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find, waitUntil } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import setupMirage from '../../helpers/setup-mirage';
+import Mirage from 'ember-cli-mirage';
+import { set } from '@ember/object';
 
+module('Integration | Component | new version notifier', function(hooks) {
+  setupRenderingTest(hooks);
+  setupMirage(hooks);
 
-const {
-  run: { later }
-} = Ember;
+  test('it yields the current and last version to the block', async function(assert) {
+    assert.expect(9);
 
-moduleForComponent('new-version-notifier', 'Integration | Component | new version notifier', {
-  integration: true,
-  beforeEach() {
-    startMirage(this.container);
-  },
-  afterEach() {
-    window.server.shutdown();
-  }
-});
+    let callCount = 0;
 
-test('it works', function (assert) {
-  assert.expect(12);
+    this.server.get('/VERSION.txt', function(){
+      ++callCount;
+      
+      return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
+    });
 
-  let callCount = 0;
+    render(hbs`
+      {{#new-version-notifier updateInterval=100 enableInTests=true as |version lastVersion reload close|}}
+        <div id="version-value">{{version}}</div>
+        <div id="last-version-value">{{lastVersion}}</div>
+      {{/new-version-notifier}}
+    `);
 
-  this.setProperties({
-    version:     null,
-    lastVersion: null
-  });
+    await waitUntil(() => callCount === 1, { timeout: 95 });
 
-  window.server.get('/VERSION.txt', function(){
-    ++callCount;
-    
-    return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
-  });
+    assert.equal(callCount, 1, "1 call was made");
+    assert.notOk(find("#version-value"), "no version displayed when no upgrade available");
+    assert.notOk(find("#last-version-value"), "no last version displayed when no upgrade available");
 
-  this.render(hbs`{{new-version-notifier updateInterval=200 version=version lastVersion=lastVersion}}`);
+    await waitUntil(() => callCount === 2, { timeout: 190 });
 
-  const done = assert.async(3);
-
-  later(() => {
-    assert.equal(this.$().text().trim(), '');
-    assert.equal(callCount, 1);
-    assert.equal(this.get('version'), 'v1.0.1');
-    assert.equal(this.get('lastVersion'), null);
-
-    done();
-  }, 0);
-
-  later(() => {
     assert.equal(callCount, 2);
-    assert.equal(this.get('version'), 'v1.0.2');
-    assert.equal(this.get('lastVersion'), 'v1.0.1');
-    assert.equal(this.$().text().trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.1 to v1.0.2. Please save any work, then refresh browser to see changes. Reload      ×');
+    assert.equal(find("#version-value").textContent, "v1.0.2");
+    assert.equal(find("#last-version-value").textContent, "v1.0.1");
 
-    done();
-  }, 300);
-
-  later(() => {
+    await waitUntil(() => callCount === 6, { timeout: 490 });
     assert.equal(callCount, 6);
-    assert.equal(this.get('version'), 'v1.0.3');
-    assert.equal(this.get('lastVersion'), 'v1.0.2');
-    assert.equal(this.$().text().trim().replace(/\n|\t/, ''), 'This application has been updated from version v1.0.2 to v1.0.3. Please save any work, then refresh browser to see changes. Reload      ×');
+    assert.equal(find("#version-value").textContent, "v1.0.3");
+    assert.equal(find("#last-version-value").textContent, "v1.0.2");
+  });
 
+  test('it calls onNewVersion when a new version is detected', async function(assert) {
+    assert.expect(4);
+    let done = assert.async(2);
+
+    let callCount = 0;
+
+    this.server.get('/VERSION.txt', function(){
+      ++callCount;
+      return `v1.0.${callCount}`;
+    });
+
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      assert.equal(newVersion, "v1.0.2", "newVersion v1.0.2 is sent to onNewVersion");
+      assert.equal(oldVersion, "v1.0.1", "oldVersion v1.0.1 is sent to onNewVersion");
+      done();
+    });
+    set(this, "enableInTests", true);
+
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=enableInTests onNewVersion=onNewVersion}}`);
+
+    await waitUntil(() => callCount === 1, { timeout: 95 });
+    assert.equal(callCount, 1, "1 call was made");
+
+    await waitUntil(() => callCount === 2, { timeout: 190 });
+    assert.equal(callCount, 2);
+    set(this, "enableInTests", false); // stop the loop from continuing
     done();
-  }, 1150);
-});
-
-test('one version', function (assert) {
-  assert.expect(4);
-
-  let callCount = 0;
-
-  this.setProperties({
-    version:     null,
-    lastVersion: null
   });
 
-  window.server.get('/VERSION.txt', function(){
-    ++callCount;
+  test('one version', async function(assert) {
+    assert.expect(2);
 
-    return 'v1.0.3';
-  });
+    let callCount = 0;
 
-  this.render(hbs`{{new-version-notifier updateInterval=100 version=version lastVersion=lastVersion}}`);
+    this.server.get('/VERSION.txt', function(){
+      ++callCount;
+      return 'v1.0.3';
+    });
 
-  const done = assert.async(1);
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      throw `unexpected call to onNewVersion with ${newVersion}, ${oldVersion}`;
+    });
 
-  later(() => {
-    assert.equal(this.$().text().trim(), '');
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
+
+    await waitUntil(() => callCount === 4, { timeout: 490 });
+    assert.equal(find('*').textContent.trim(), '');
     assert.equal(callCount, 4);
-    assert.equal(this.get('version'), 'v1.0.3');
-    assert.equal(this.get('lastVersion'), null);
-
-    done();
-  }, 350);
-});
-
-test('repeat on bad response', function (assert) {
-  assert.expect(4);
-
-  let callCount = 0;
-
-  this.setProperties({
-    version:     null,
-    lastVersion: null
   });
 
-  window.server.get('/VERSION.txt', function(){
-    ++callCount;
+  test('repeat on bad response', async function(assert) {
+    assert.expect(2);
 
-    if (callCount === 1) {
-      return new Mirage.Response(500, {}, { message: '' });
-    }
+    let callCount = 0;
 
-    return 'v1.0.3';
-  });
+    this.server.get('/VERSION.txt', function(){
+      ++callCount;
 
-  this.render(hbs`{{new-version-notifier updateInterval=100 version=version lastVersion=lastVersion}}`);
+      if (callCount === 1) {
+        return new Mirage.Response(500, {}, { message: '' });
+      }
 
-  const done = assert.async(1);
+      return 'v1.0.3';
+    });
 
-  later(() => {
-    assert.equal(this.$().text().trim(), '');
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      throw `unexpected call to onNewVersion with ${newVersion}, ${oldVersion}`;
+    });
+
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
+
+    await waitUntil(() => callCount === 4, { timeout: 490 });
+    assert.equal(find('*').textContent.trim(), '');
     assert.equal(callCount, 4);
-    assert.equal(this.get('version'), 'v1.0.3');
-    assert.equal(this.get('lastVersion'), null);
-
-    done();
-  }, 350);
+  });
 });

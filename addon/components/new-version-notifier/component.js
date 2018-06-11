@@ -1,14 +1,10 @@
+import { getOwner } from '@ember/application';
+import Component from '@ember/component';
+import { get, computed } from '@ember/object';
 import Ember             from 'ember';
 import request           from 'ember-ajax/request';
 import layout            from './template';
 import { task, timeout } from 'ember-concurrency';
-
-const {
-  getOwner,
-  computed,
-  Component,
-  get,
-} = Ember;
 
 let taskRunCounter = 0;
 
@@ -19,11 +15,16 @@ export default Component.extend({
   layout: layout,
 
   tagName          : '',
-  updateInterval   : Ember.testing ? 0 : ONE_MINUTE,
+
+  enableInTests    : false,
+  updateInterval   : ONE_MINUTE,
   versionFileName  : "/VERSION.txt",
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
   reloadButtonText : "Reload",
+  onNewVersion(/* version, lastVersion */) {},
+
+  // internal state:
   lastVersion      : null,
   version          : null,
 
@@ -44,8 +45,15 @@ export default Component.extend({
 
     if (Ember.testing) { taskRunCounter = 0; }
 
-    this.get('updateVersion').perform();
+    if (!Ember.testing || get(this, 'enableInTests')) {
+      this.get('updateVersion').perform();
+    }
   },
+
+  updateIntervalWithTesting: computed('updateInterval', 'enableInTests', function() {
+    let enableInTests = get(this, 'enableInTests');
+    return (!enableInTests && Ember.testing) ? 0 : get(this, 'updateInterval');
+  }),
 
   updateVersion: task(function * () {
     const url = this.get('url');
@@ -65,6 +73,7 @@ export default Component.extend({
               message,
               lastVersion: currentVersion
             });
+            this.onNewVersion(newVersion, currentVersion);
           }
 
           this.set('version', newVersion);
@@ -72,13 +81,14 @@ export default Component.extend({
     } catch (e){
       if (!Ember.testing) { throw e; }
     } finally {
-      let updateInterval = this.get('updateInterval');
+      let updateInterval = this.get('updateIntervalWithTesting');
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
-        
+
       yield timeout(updateInterval);
 
       if (Ember.testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
 
+      if (Ember.testing && !get(this, 'enableInTests')) { return; }
       this.get('updateVersion').perform();
     }
   }),
