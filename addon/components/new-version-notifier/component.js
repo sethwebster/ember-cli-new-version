@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["log"] }] */
 import { getOwner } from '@ember/application';
 import Component from '@ember/component';
 import { get, computed } from '@ember/object';
@@ -78,8 +79,10 @@ export default Component.extend({
 
           this.set('version', newVersion);
         });
-    } catch (e){
-      if (!Ember.testing) { throw e; }
+    } catch (e) {
+      if (!Ember.testing) {
+        console.log(e);
+      }
     } finally {
       let updateInterval = this.get('updateIntervalWithTesting');
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
