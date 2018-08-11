@@ -10,7 +10,8 @@
     "build": "ember build",
     "start": "ember server",
     "test": "ember test",
-    "test:all": "ember try:each"
+    "test:all": "ember try:each",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -46,7 +47,8 @@
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^6.0.1",
     "loader.js": "^4.5.1",
-    "mirage": "0.0.7"
+    "mirage": "0.0.7",
+    "standard-version": "^4.4.0"
   },
   "keywords": [
     "ember-addon",
