@@ -24,6 +24,11 @@ export default Component.extend({
   showReload       : true,
   reloadButtonText : "Reload",
   onNewVersion(/* version, lastVersion */) {},
+  onError(e) {
+    if (!Ember.testing) {
+      console.log(e);
+    }
+  },
 
   // internal state:
   lastVersion      : null,
@@ -80,9 +85,7 @@ export default Component.extend({
           this.set('version', newVersion);
         });
     } catch (e) {
-      if (!Ember.testing) {
-        console.log(e);
-      }
+      this.onError(e);
     } finally {
       let updateInterval = this.get('updateIntervalWithTesting');
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
