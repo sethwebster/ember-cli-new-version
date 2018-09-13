@@ -17,7 +17,7 @@ module('Integration | Component | new version notifier', function(hooks) {
 
     this.server.get('/VERSION.txt', function(){
       ++callCount;
-      
+
       return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
     });
 
@@ -120,5 +120,26 @@ module('Integration | Component | new version notifier', function(hooks) {
     await waitUntil(() => callCount === 4, { timeout: 490 });
     assert.equal(find('*').textContent.trim(), '');
     assert.equal(callCount, 4);
+  });
+
+  test('it calls onError when request fails', async function(assert) {
+    assert.expect(1);
+
+    let called = false;
+
+    this.server.get('/VERSION.txt', function() {
+      called = true;
+      return new Mirage.Response(500, {}, { message: '' });
+    });
+
+    let onErrorCalled = false;
+    set(this, "onError", () => {
+      onErrorCalled = true;
+    });
+
+    render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onError=onError}}`);
+
+    await waitUntil(() => called, { timeout: 95 });
+    assert.ok(onErrorCalled, 'onError was called');
   });
 });
