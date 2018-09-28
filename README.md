@@ -82,7 +82,7 @@ This will result in `dist/MY-VERSION.txt` being created. Note that this will als
 
 ### Supports `ember-cli-app-version`
 
-Since version 1.6.0 this addons is able to use the version string provided by [ember-cli-app-version](https://github.com/ember-cli/ember-cli-app-version).
+Since version 1.2.0 this addons is able to use the version string provided by [ember-cli-app-version](https://github.com/ember-cli/ember-cli-app-version).
 
 All you have to do is install `ember-cli-app-version` and enable a flag in `ember-cli-build.js`.
 
