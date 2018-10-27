@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sethwebster/ember-cli-new-version.svg?branch=master)](https://travis-ci.org/sethwebster/ember-cli-new-version)
 
-A convention-based version update notifier.
+A convention-based version update notifier. Use it to notify users already on the page that a new version has been deployed.
 
 ## Usage
 
