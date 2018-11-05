@@ -3,9 +3,9 @@ import { getOwner } from '@ember/application';
 import Component from '@ember/component';
 import { get, computed } from '@ember/object';
 import Ember             from 'ember';
-import request           from 'ember-ajax/request';
 import layout            from './template';
 import { task, timeout } from 'ember-concurrency';
+import fetch from 'fetch';
 
 let taskRunCounter = 0;
 
@@ -65,7 +65,12 @@ export default Component.extend({
     const url = this.get('url');
 
     try {
-      yield request(url, { cache: false, dataType: 'text' })
+      yield fetch(url + '?_=' + Date.now())
+        .then(response => {
+          if(!response.ok)
+            throw new Error(response.statusText);
+          return response.text();
+        })
         .then(res => {
           const currentVersion = this.get('version');
           const newVersion     = res && res.trim();
