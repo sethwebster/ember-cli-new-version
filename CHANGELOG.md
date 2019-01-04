@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/sethwebster/ember-cli-new-version/compare/v1.4.0...v1.4.1) (2019-01-04)
+
+
+### Bug Fixes
+
+* replace ember-ajax with ember-fetch ([#54](https://github.com/sethwebster/ember-cli-new-version/issues/54)) ([5e1c79c](https://github.com/sethwebster/ember-cli-new-version/commit/5e1c79c))
+* update deps and move ember-fetch to dep ([99c1c6e](https://github.com/sethwebster/ember-cli-new-version/commit/99c1c6e))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/sethwebster/ember-cli-new-version/compare/v1.3.1...v1.4.0) (2018-09-28)
 
