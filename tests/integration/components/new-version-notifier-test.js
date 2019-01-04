@@ -31,19 +31,19 @@ module('Integration | Component | new version notifier', function(hooks) {
     await waitUntil(() => callCount === 1, { timeout: 95 });
 
     assert.equal(callCount, 1, "1 call was made");
-    assert.notOk(find("#version-value"), "no version displayed when no upgrade available");
-    assert.notOk(find("#last-version-value"), "no last version displayed when no upgrade available");
+    assert.dom("#version-value").doesNotExist("no version displayed when no upgrade available");
+    assert.dom("#last-version-value").doesNotExist("no last version displayed when no upgrade available");
 
     await waitUntil(() => callCount === 2, { timeout: 190 });
 
     assert.equal(callCount, 2);
-    assert.equal(find("#version-value").textContent, "v1.0.2");
-    assert.equal(find("#last-version-value").textContent, "v1.0.1");
+    assert.dom("#version-value").hasText('v1.0.2');
+    assert.dom("#last-version-value").hasText('v1.0.1');
 
     await waitUntil(() => callCount === 6, { timeout: 490 });
     assert.equal(callCount, 6);
-    assert.equal(find("#version-value").textContent, "v1.0.3");
-    assert.equal(find("#last-version-value").textContent, "v1.0.2");
+    assert.dom("#version-value").hasText('v1.0.3');
+    assert.dom("#last-version-value").hasText('v1.0.2');
   });
 
   test('it calls onNewVersion when a new version is detected', async function(assert) {
@@ -92,7 +92,7 @@ module('Integration | Component | new version notifier', function(hooks) {
     render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
-    assert.equal(find('*').textContent.trim(), '');
+    assert.dom('*').hasText('');
     assert.equal(callCount, 4);
   });
 
@@ -118,7 +118,7 @@ module('Integration | Component | new version notifier', function(hooks) {
     render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
-    assert.equal(find('*').textContent.trim(), '');
+    assert.dom('*').hasText('');
     assert.equal(callCount, 4);
   });
 
