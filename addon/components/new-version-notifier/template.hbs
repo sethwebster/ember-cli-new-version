@@ -3,7 +3,7 @@
     {{yield version lastVersion (action "reload") (action "close")}}
   {{else}}
     <div class="update-notification">
-      {{message}} {{#if showReload}}<a href="" {{action 'reload'}} class="update-notification__btn">{{reloadButtonText}}</a>{{/if}}
+      {{message}} {{#if showReload}}<a href="" {{action "reload"}} class="update-notification__btn">{{reloadButtonText}}</a>{{/if}}
       <a href="" {{action "close"}} class="update-notification__close">×</a>
     </div>
   {{/if}}
