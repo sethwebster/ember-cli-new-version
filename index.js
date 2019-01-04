@@ -4,7 +4,7 @@
 const writeFile = require('broccoli-file-creator');
 
 module.exports = {
-  name: 'ember-cli-new-version',
+  name: require('./package').name,
   
   /**
    * Store `ember-cli-build.js` options
