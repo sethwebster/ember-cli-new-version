@@ -128,7 +128,9 @@ module('Integration | Component | new version notifier', function(hooks) {
     let called = false;
 
     this.server.get('/VERSION.txt', function() {
-      called = true;
+      setTimeout(() => {
+        called = true;
+      }, 100);
       return new Mirage.Response(500, {}, { message: '' });
     });
 
@@ -139,7 +141,7 @@ module('Integration | Component | new version notifier', function(hooks) {
 
     render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onError=onError}}`);
 
-    await waitUntil(() => called, { timeout: 95 });
+    await waitUntil(() => called, { timeout: 150 });
     assert.ok(onErrorCalled, 'onError was called');
   });
 });
