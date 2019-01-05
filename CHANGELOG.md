@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.2"></a>
+## [1.4.2](https://github.com/sethwebster/ember-cli-new-version/compare/v1.4.1...v1.4.2) (2019-01-05)
+
+
+### Bug Fixes
+
+* **lint:** quotes in template ([8dc5c94](https://github.com/sethwebster/ember-cli-new-version/commit/8dc5c94))
+* concurrency updated to fix https://github.com/machty/ember-concurrency/issues/261 ([ede4be3](https://github.com/sethwebster/ember-cli-new-version/commit/ede4be3))
+* run codemods, update tests ([b076032](https://github.com/sethwebster/ember-cli-new-version/commit/b076032))
+* update using ember-cli-update ([0ca640e](https://github.com/sethwebster/ember-cli-new-version/commit/0ca640e))
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/sethwebster/ember-cli-new-version/compare/v1.4.0...v1.4.1) (2019-01-04)
 
