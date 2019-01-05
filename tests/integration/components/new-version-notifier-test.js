@@ -13,9 +13,13 @@ module('Integration | Component | new version notifier', function(hooks) {
   test('it yields the current and last version to the block', async function(assert) {
     assert.expect(9);
 
+    let called = false;
     let callCount = 0;
 
     this.server.get('/VERSION.txt', function(){
+      setTimeout(() => {
+        called = true;
+      }, 0);
       ++callCount;
 
       return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
@@ -28,20 +32,22 @@ module('Integration | Component | new version notifier', function(hooks) {
       {{/new-version-notifier}}
     `);
 
-    await waitUntil(() => callCount === 1, { timeout: 95 });
+    await waitUntil(() => called, { timeout: 50 });
 
     assert.equal(callCount, 1, "1 call was made");
     assert.dom("#version-value").doesNotExist("no version displayed when no upgrade available");
     assert.dom("#last-version-value").doesNotExist("no last version displayed when no upgrade available");
+    called = false;
 
-    await waitUntil(() => callCount === 2, { timeout: 190 });
+    await waitUntil(() => called, { timeout: 150 });
 
     assert.equal(callCount, 2);
     assert.dom("#version-value").hasText('v1.0.2');
     assert.dom("#last-version-value").hasText('v1.0.1');
+    called = false;
 
-    await waitUntil(() => callCount === 6, { timeout: 490 });
-    assert.equal(callCount, 6);
+    await waitUntil(() => called, { timeout: 250 });
+    assert.equal(callCount, 3);
     assert.dom("#version-value").hasText('v1.0.3');
     assert.dom("#last-version-value").hasText('v1.0.2');
   });
