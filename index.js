@@ -10,7 +10,9 @@ module.exports = {
    * Store `ember-cli-build.js` options
    */
   included: function(app/*, parentAddon*/) {
+    this._super.included.apply(this, arguments);
     this._options = app.options.newVersion || {};
+
     if (this._options.enabled === true) {
       this._options.fileName = this._options.fileName || 'VERSION.txt';
       this._options.prepend  = this._options.prepend  || '';
