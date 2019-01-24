@@ -59,9 +59,9 @@ to use a different framework, then you can define your own markup for the notifi
 You can opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
 
 ```js
-var app = new EmberApp(defaults, {
+let app = new EmberApp(defaults, {
   newVersion: {
-    enabled: true,
+    enabled: true
   }
 });
 ```
@@ -70,12 +70,11 @@ This will result in `dist/VERSION.txt` being created.
 To override the version filename:
 
 ```js
-var app = new EmberApp(defaults, {
+let app = new EmberApp(defaults, {
   newVersion: {
     enabled: true,
     fileName: 'MY-VERSION.txt'
   }
-  
 });
 ```
 This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
@@ -89,7 +88,7 @@ All you have to do is install `ember-cli-app-version` and enable a flag in `embe
 Then an update is triggered based on full version strings with build metadata such as `1.0.0-beta-2-e1dffe1`.
 
 ```js
-var app = new EmberApp(defaults, {
+let app = new EmberApp(defaults, {
   newVersion: {
     enabled: true,
     useAppVersion: true
