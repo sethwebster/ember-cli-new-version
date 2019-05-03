@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/sethwebster/ember-cli-new-version/compare/v1.4.4...v1.5.0) (2019-05-03)
+
+
+### Features
+
+* Allow custom version comparison function ([#57](https://github.com/sethwebster/ember-cli-new-version/issues/57)) ([9b0207d](https://github.com/sethwebster/ember-cli-new-version/commit/9b0207d))
+
+
+
 <a name="1.4.4"></a>
 ## [1.4.4](https://github.com/sethwebster/ember-cli-new-version/compare/v1.4.3...v1.4.4) (2019-03-26)
 
