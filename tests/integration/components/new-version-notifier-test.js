@@ -150,4 +150,58 @@ module('Integration | Component | new version notifier', function(hooks) {
     await waitUntil(() => called, { timeout: 150 });
     assert.ok(onErrorCalled, 'onError was called');
   });
+
+  test('it accepts a custom updateNeeded function', async function(assert) {
+    assert.expect(5);
+    let done = assert.async(2);
+
+    let callCount = 0;
+
+    this.server.get('/VERSION.txt', function(){
+      ++callCount
+      switch (callCount) {
+        case 0:
+          return 'v1.0.0';
+        case 1:
+          return 'v1.0.1';
+        case 2:
+          return 'v1.0.2';
+        case 3:
+          return 'v1.1.0';
+        default:
+          return null;
+      }
+    });
+
+    set(this, "onNewVersion", (newVersion, oldVersion) => {
+      assert.equal(newVersion, "v1.1.0", "newVersion v1.1.0 is sent to onNewVersion");
+      assert.equal(oldVersion, "v1.0.2", "oldVersion v1.0.2 is sent to onNewVersion");
+      done();
+    });
+    set(this, "enableInTests", true);
+
+    set(this, "updateNeeded", function(currentVersion, newVersion) {
+      if (!currentVersion) { return false }
+
+      // Only compare major and minor version number
+      let currentV = currentVersion.substr(0, currentVersion.lastIndexOf("."));
+      let newV = newVersion.substr(0, newVersion.lastIndexOf("."));
+
+      return newV !== currentV;
+    });
+
+    render(hbs`{{new-version-notifier updateNeeded=updateNeeded updateInterval=100 enableInTests=enableInTests onNewVersion=onNewVersion}}`);
+
+    await waitUntil(() => callCount === 1, { timeout: 95 });
+    assert.equal(callCount, 1, "1 call was made");
+
+    await waitUntil(() => callCount === 2, { timeout: 190 });
+    assert.equal(callCount, 2);
+
+    await waitUntil(() => callCount === 3, { timeout: 190 });
+    assert.equal(callCount, 3);
+
+    set(this, "enableInTests", false); // stop the loop from continuing
+    done();
+  });
 });
