@@ -75,7 +75,7 @@ export default Component.extend({
           const currentVersion = this.get('version');
           const newVersion     = res && res.trim();
 
-          if (currentVersion && newVersion !== currentVersion) {
+          if (this.updateNeeded(currentVersion, newVersion)) {
             const message = this.get('updateMessage')
               .replace('{{oldVersion}}', currentVersion)
               .replace('{{newVersion}}', newVersion);
@@ -104,6 +104,9 @@ export default Component.extend({
     }
   }),
 
+  updateNeeded(currentVersion, newVersion) {
+    return currentVersion && newVersion !== currentVersion;
+  },
 
   actions: {
     reload() {
