@@ -23,7 +23,7 @@ A convention-based version update notifier. Use it to notify users already on th
   {{new-version-notifier}}
   ```
 
-**viola**!
+**voila**!
 
 ### Options ###
 ----
