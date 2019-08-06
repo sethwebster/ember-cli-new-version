@@ -45,9 +45,9 @@ A convention-based version update notifier. Use it to notify users already on th
 
 ```handlebars
 <NewVersionNotifier
-  @updateInterval={{150000}}
   @versionFileName="/version"
-  @updateMessage="A new version was release: {newVersion}"
+  @updateMessage="A new version was released: {newVersion}"
+  @updateInterval={{150000}}
   @showReload={{true}}
 />
 ```
