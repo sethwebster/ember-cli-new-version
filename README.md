@@ -36,8 +36,8 @@ A convention-based version update notifier. Use it to notify users already on th
 * `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
 * `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
 * `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
-* `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
-  eg. (and **default**). "This application has been updated from version `{oldVersion}` to `{newVersion}`. Please save any work, then refresh browser to see changes."
+* `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: `{newVersion}` and `{oldVersion}` which will replaced with their respective values.
+  eg. (and **default**). "This application has been updated from version {oldVersion} to {newVersion}. Please save any work, then refresh browser to see changes."
 * `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
 * `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
 * `onNewVersion(newVersion, oldVersion)` - a closure action that is called whenever a new version is detected. You can use this to track the version status elsewhere in your app (outside the component).
