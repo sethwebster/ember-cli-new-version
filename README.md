@@ -26,7 +26,7 @@ A convention-based version update notifier. Use it to notify users already on th
 
 3. Include the component in your view:
   ```handlebars
-  {{new-version-notifier}}
+  <NewVersionNotifier/>
   ```
 
 **viola**!
@@ -37,14 +37,19 @@ A convention-based version update notifier. Use it to notify users already on th
 * `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
 * `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
 * `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
-  eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."
+  eg. (and **default**). "This application has been updated from version `{oldVersion}` to `{newVersion}`. Please save any work, then refresh browser to see changes."
 * `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
 * `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
 * `onNewVersion(newVersion, oldVersion)` - a closure action that is called whenever a new version is detected. You can use this to track the version status elsewhere in your app (outside the component).
 * `updateNeeded(oldVersion, newVersion)` - a function that is called to check if an update message should be shown.   For example, a function could be passed that only shows a message on major version changes. **default: Always show message on any version change**
 
 ```handlebars
-{{new-version-notifier updateInterval=<value> versionFileName="<value>" updateMessage="<value>" showReload=true}}
+<NewVersionNotifier
+  @updateInterval={{150000}}
+  @versionFileName="/version"
+  @updateMessage="A new version was release: {newVersion}"
+  @showReload={{true}}
+/>
 ```
 
 ### Custom Notification ###
@@ -53,13 +58,13 @@ By default the notification is styled as a Bootstrap Alert. If you want custom l
 to use a different framework, then you can define your own markup for the notification.
 
 ```hbs
-{{#new-version-notifier as |version lastVersion reload close|}}
+<NewVersionNotifier as |version lastVersion reload close|>
   <div class="custom-notification">
     Reload to update to the new version ({{version}}) of this application
     <button type="button" onclick={{action reload}}>Reload</button>
     <button type="button" onclick={{action close}}>Close</button>
   </div>
-{{/new-version-notifier}}
+</NewVersionNotifier>
 ```
 
 ## Automatic VERSION file creation

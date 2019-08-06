@@ -92,8 +92,8 @@ export default Component.extend({
 
           if (this.updateNeeded(currentVersion, newVersion)) {
             const message = this.get('updateMessage')
-              .replace('{{oldVersion}}', currentVersion)
-              .replace('{{newVersion}}', newVersion);
+              .replace('{oldVersion}', currentVersion)
+              .replace('{newVersion}', newVersion);
 
             this.setProperties({
               message,
