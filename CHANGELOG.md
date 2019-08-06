@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/sethwebster/ember-cli-new-version/compare/v1.6.0...v2.0.0) (2019-08-06)
+
+
+### Bug Fixes
+
+* add v1 to concurrency dep ([27511bb](https://github.com/sethwebster/ember-cli-new-version/commit/27511bb)), closes [#60](https://github.com/sethwebster/ember-cli-new-version/issues/60)
+* don't use double curlies for version updateMessage vars ([1269833](https://github.com/sethwebster/ember-cli-new-version/commit/1269833))
+* drop node 6 and test Ember 3.4+ ([7253281](https://github.com/sethwebster/ember-cli-new-version/commit/7253281))
+
+
+### BREAKING CHANGES
+
+* `@updateMessage` now takes `{oldVersion}` and `{newVersion}` instead of `{{oldVersion}}` to `{{newVersion}}` since curlies can be used in strings in hbs and with angle bracket syntax you are far more likely to write strings like that.
+* Drop node 6 support and Ember < 3.4
+
+Might still work on <3.4 but untested
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/sethwebster/ember-cli-new-version/compare/v1.5.0...v1.6.0) (2019-08-06)
 
