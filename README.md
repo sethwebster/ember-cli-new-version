@@ -28,6 +28,7 @@ A convention-based version update notifier. Use it to notify users already on th
 ### Options ###
 ----
 * `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
+* `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
 * `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
 * `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: ```{{newVersion}}``` and ```{{oldVersion}}``` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes."
@@ -93,7 +94,7 @@ let app = new EmberApp(defaults, {
   newVersion: {
     enabled: true,
     useAppVersion: true
-  }  
+  }
 });
 ```
 

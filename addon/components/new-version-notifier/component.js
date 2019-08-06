@@ -6,6 +6,7 @@ import Ember             from 'ember';
 import layout            from './template';
 import { task, timeout } from 'ember-concurrency';
 import fetch from 'fetch';
+import { later } from '@ember/runloop';
 
 let taskRunCounter = 0;
 
@@ -19,6 +20,7 @@ export default Component.extend({
 
   enableInTests    : false,
   updateInterval   : ONE_MINUTE,
+  firstCheckInterval : 0,
   versionFileName  : "/VERSION.txt",
   updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
@@ -33,6 +35,11 @@ export default Component.extend({
   // internal state:
   lastVersion      : null,
   version          : null,
+
+  _fastboot: computed(function() {
+    let owner = getOwner(this);
+    return owner.lookup('service:fastboot');
+  }),
 
   url: computed('versionFileName', function () {
     const config          = getOwner(this).resolveRegistration('config:environment');
@@ -49,10 +56,18 @@ export default Component.extend({
   init () {
     this._super(...arguments);
 
+    if (this.get('_fastboot.isFastBoot')) {
+      return;
+    }
+
     if (Ember.testing) { taskRunCounter = 0; }
 
     if (!Ember.testing || get(this, 'enableInTests')) {
-      this.get('updateVersion').perform();
+      if (this.firstCheckInterval > 0) {
+        later(this, () => { this.get('updateVersion').perform(); }, this.firstCheckInterval);
+      } else {
+        this.get('updateVersion').perform();
+      }
     }
   },
 
