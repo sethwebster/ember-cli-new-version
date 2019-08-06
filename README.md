@@ -4,6 +4,12 @@
 
 A convention-based version update notifier. Use it to notify users already on the page that a new version has been deployed.
 
+## Compatibility
+
+* Ember.js v3.4 or above
+* Ember CLI v2.13 or above
+* Node.js v8 or above
+
 ## Usage
 
 1. Add this add-on as you would any other:
@@ -98,9 +104,11 @@ let app = new EmberApp(defaults, {
 });
 ```
 
-## Contributing
+Contributing
+------------------------------------------------------------------------------
 
-See the [Contributing](CONTRIBUTING.md) guide.
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
 
 License
 ------------------------------------------------------------------------------
