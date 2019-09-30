@@ -29,7 +29,7 @@ A convention-based version update notifier. Use it to notify users already on th
   <NewVersionNotifier/>
   ```
 
-**viola**!
+**voila**!
 
 ### Options ###
 ----
