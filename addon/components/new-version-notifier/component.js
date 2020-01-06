@@ -22,7 +22,7 @@ export default Component.extend({
   updateInterval   : ONE_MINUTE,
   firstCheckInterval : 0,
   versionFileName  : "/VERSION.txt",
-  updateMessage    : "This application has been updated from version {{oldVersion}} to {{newVersion}}. Please save any work, then refresh browser to see changes.",
+  updateMessage    : "This application has been updated from version {oldVersion} to {newVersion}. Please save any work, then refresh browser to see changes.",
   showReload       : true,
   reloadButtonText : "Reload",
   onNewVersion(/* version, lastVersion */) {},
