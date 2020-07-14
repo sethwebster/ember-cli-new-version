@@ -42,7 +42,7 @@
     "loader.js": "^4.7.0",
     "mirage": "0.0.7",
     "qunit-dom": "^0.8.4",
-    "standard-version": "^4.4.0"
+    "standard-version": "^8.0.1"
   },
   "keywords": [
     "ember-addon",
