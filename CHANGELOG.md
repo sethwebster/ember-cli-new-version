@@ -1,6 +1,13 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [2.0.2](https://github.com/sethwebster/ember-cli-new-version/compare/v2.0.1...v2.0.2) (2020-11-11)
+
+
+### Bug Fixes
+
+* default update message dynamic values ([22f9bb9](https://github.com/sethwebster/ember-cli-new-version/commit/22f9bb939df4f8960c986ae1a570570079c1cc41)), closes [#64](https://github.com/sethwebster/ember-cli-new-version/issues/64)
 
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/sethwebster/ember-cli-new-version/compare/v2.0.0...v2.0.1) (2019-09-30)
