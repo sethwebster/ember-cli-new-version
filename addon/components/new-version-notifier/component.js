@@ -43,7 +43,7 @@ export default Component.extend({
 
   url: computed('versionFileName', function () {
     const config          = getOwner(this).resolveRegistration('config:environment');
-    const versionFileName = get(config, 'newVersion.fileName') || this.get('versionFileName');
+    const versionFileName = get(config, 'newVersion.fileName') || this.versionFileName;
     const baseUrl         = get(config, 'newVersion.prepend')  || config.rootURL || config.baseURL;
 
     if (!config || baseUrl === '/') {
@@ -62,22 +62,22 @@ export default Component.extend({
 
     if (Ember.testing) { taskRunCounter = 0; }
 
-    if (!Ember.testing || get(this, 'enableInTests')) {
+    if (!Ember.testing || this.enableInTests) {
       if (this.firstCheckInterval > 0) {
-        later(this, () => { this.get('updateVersion').perform(); }, this.firstCheckInterval);
+        later(this, () => { this.updateVersion.perform(); }, this.firstCheckInterval);
       } else {
-        this.get('updateVersion').perform();
+        this.updateVersion.perform();
       }
     }
   },
 
   updateIntervalWithTesting: computed('updateInterval', 'enableInTests', function() {
-    let enableInTests = get(this, 'enableInTests');
-    return (!enableInTests && Ember.testing) ? 0 : get(this, 'updateInterval');
+    let enableInTests = this.enableInTests;
+    return (!enableInTests && Ember.testing) ? 0 : this.updateInterval;
   }),
 
   updateVersion: task(function * () {
-    const url = this.get('url');
+    const url = this.url;
 
     try {
       yield fetch(url + '?_=' + Date.now())
@@ -87,11 +87,11 @@ export default Component.extend({
           return response.text();
         })
         .then(res => {
-          const currentVersion = this.get('version');
+          const currentVersion = this.version;
           const newVersion     = res && res.trim();
 
           if (this.updateNeeded(currentVersion, newVersion)) {
-            const message = this.get('updateMessage')
+            const message = this.updateMessage
               .replace('{oldVersion}', currentVersion)
               .replace('{newVersion}', newVersion);
 
@@ -107,15 +107,15 @@ export default Component.extend({
     } catch (e) {
       this.onError(e);
     } finally {
-      let updateInterval = this.get('updateIntervalWithTesting');
+      let updateInterval = this.updateIntervalWithTesting;
       if (updateInterval === null || updateInterval === undefined) { updateInterval = ONE_MINUTE }
 
       yield timeout(updateInterval);
 
       if (Ember.testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) { return; }
 
-      if (Ember.testing && !get(this, 'enableInTests')) { return; }
-      this.get('updateVersion').perform();
+      if (Ember.testing && !this.enableInTests) { return; }
+      this.updateVersion.perform();
     }
   }),
 
