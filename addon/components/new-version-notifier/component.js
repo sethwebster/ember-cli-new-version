@@ -5,7 +5,6 @@ import { get, computed } from '@ember/object';
 import Ember             from 'ember';
 import layout            from './template';
 import { task, timeout } from 'ember-concurrency';
-import fetch from 'fetch';
 import { later } from '@ember/runloop';
 
 let taskRunCounter = 0;
