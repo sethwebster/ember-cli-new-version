@@ -5337,7 +5337,7 @@ ember-cli@~3.22.0:
     workerpool "^6.0.1"
     yam "^1.0.0"
 
-ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0:
+ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0, ember-compatibility-helpers@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-1.2.2.tgz#839e0c24190b7a2ec8c39b80e030811b1a95b6d3"
   integrity sha512-EKyCGOGBvKkBsk6wKfg3GhjTvTTkcEwzl/cv4VYvZM18cihmjGNpliR4BymWsKRWrv4VJLyq15Vhk3NHkSNBag==
@@ -5353,14 +5353,25 @@ ember-concurrency-test-waiter@^0.3.1:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-"ember-concurrency@^0.8.26 || ^0.9.0 || ^1.0.0 || ^1.1.0 || ^1.2.0 || ^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-1.3.0.tgz#66f90fb792687470bcee1172adc0ebf33f5e8b9c"
-  integrity sha512-DwGlfWFpYyAkTwsedlEtK4t1DznJSculAW6Vq5S1C0shVPc5b6tTpHB2FFYisannSYkm+wpm1f1Pd40qiNPtOQ==
+ember-concurrency@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-2.0.2.tgz#0fdadb6afae417908970c04492f98f8f2e9d06ec"
+  integrity sha512-dIlSg1NFZpNFJf7gEW0etrzfeivnBZKnjx6cSgbP1QUsaYgECoKXmNnuPK9YPZofqAnRZdCawQv4yMmW5zUNiw==
   dependencies:
-    ember-cli-babel "^7.7.3"
+    "@glimmer/tracking" "^1.0.2"
+    ember-cli-babel "^7.22.1"
+    ember-cli-htmlbars "^5.3.1"
     ember-compatibility-helpers "^1.2.0"
-    ember-maybe-import-regenerator "^0.1.6"
+    ember-destroyable-polyfill "^2.0.2"
+
+ember-destroyable-polyfill@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/ember-destroyable-polyfill/-/ember-destroyable-polyfill-2.0.3.tgz#1673ed66609a82268ef270a7d917ebd3647f11e1"
+  integrity sha512-TovtNqCumzyAiW0/OisSkkVK93xnVF4NRU6+FN0ubpfwEOpRrmM2RqDwXI6YAChCgSHON1cz0DfQStpA1Gjuuw==
+  dependencies:
+    ember-cli-babel "^7.22.1"
+    ember-cli-version-checker "^5.1.1"
+    ember-compatibility-helpers "^1.2.1"
 
 ember-disable-prototype-extensions@^1.1.3:
   version "1.1.3"

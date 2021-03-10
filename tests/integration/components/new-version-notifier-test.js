@@ -19,7 +19,7 @@ module('Integration | Component | new version notifier', function(hooks) {
     this.server.get('/VERSION.txt', function(){
       setTimeout(() => {
         called = true;
-      }, 0);
+      }, 20); // dirty workaround, because fetch sometimes returns after waitUntil if this is set to 0
       ++callCount;
 
       return callCount < 4 ? 'v1.0.' + callCount : 'v1.0.3';
