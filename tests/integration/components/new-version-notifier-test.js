@@ -98,7 +98,7 @@ module('Integration | Component | new version notifier', function(hooks) {
     render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
-    assert.dom('*').hasText('');
+    assert.dom(document.querySelector('#ember-testing-container')).hasText('');
     assert.equal(callCount, 4);
   });
 
@@ -124,7 +124,7 @@ module('Integration | Component | new version notifier', function(hooks) {
     render(hbs`{{new-version-notifier updateInterval=100 enableInTests=true onNewVersion=onNewVersion}}`);
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
-    assert.dom('*').hasText('');
+    assert.dom(document.querySelector('#ember-testing-container')).hasText('');
     assert.equal(callCount, 4);
   });
 
