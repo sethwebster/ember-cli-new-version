@@ -1,10 +1,17 @@
-{{#if message}}
-  {{#if hasBlock}}
-    {{yield version lastVersion (action "reload") (action "close")}}
+{{#if this.message}}
+  {{#if (has-block)}}
+    {{yield this.version this.lastVersion (action 'reload') (action 'close')}}
   {{else}}
-    <div class="update-notification">
-      {{message}} {{#if showReload}}<a href="" {{action "reload"}} class="update-notification__btn">{{reloadButtonText}}</a>{{/if}}
-      <a href="" {{action "close"}} class="update-notification__close">×</a>
+    <div class='update-notification'>
+      {{this.message}}
+      {{#if this.showReload}}
+        <a href='' class='update-notification__btn' {{action 'reload'}}>
+          {{this.reloadButtonText}}
+        </a>
+      {{/if}}
+      <a href='' class='update-notification__close' {{action 'close'}}>
+        ×
+      </a>
     </div>
   {{/if}}
 {{/if}}
