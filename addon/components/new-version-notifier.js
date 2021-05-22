@@ -1,64 +1,64 @@
-/*eslint no-console: ["error", { allow: ["log"] }] */
 import { getOwner } from '@ember/application';
-import Component from '@ember/component';
-import { get, computed } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 import fetch from 'fetch';
 import { later } from '@ember/runloop';
-import layout from './template';
 
 let taskRunCounter = 0;
 
 const MAX_COUNT_IN_TESTING = 10;
 const ONE_MINUTE = 60000;
 
-export default Component.extend({
-  layout: layout,
-  tagName: '',
-
-  enableInTests: false,
-  updateInterval: ONE_MINUTE,
-  firstCheckInterval: 0,
-  versionFileName: '/VERSION.txt',
-  updateMessage:
-    'This application has been updated from version {oldVersion} to {newVersion}. Please save any work, then refresh browser to see changes.',
-  showReload: true,
-  reloadButtonText: 'Reload',
-  onNewVersion(/* version, lastVersion */) {},
-  onError(e) {
-    if (!Ember.testing) {
-      console.log(e);
-    }
-  },
+export default class NewVersionNotifier extends Component {
+  @tracked enableInTests = this.args.enableInTests ?? false;
+  @tracked updateInterval = this.args.updateInterval ?? ONE_MINUTE;
+  @tracked versionFileName = this.args.versionFileName ?? '/VERSION.txt';
+  @tracked firstCheckInterval = this.args.firstCheckInterval ?? 0;
+  @tracked updateMessage =
+    this.args.updateMessage ??
+    'This application has been updated from version {oldVersion} to {newVersion}. Please save any work, then refresh browser to see changes.';
+  @tracked showReload = this.args.showReload ?? true;
+  @tracked reloadButtonText = this.args.reloadButtonText ?? 'Reload';
+  @tracked onNewVersion = this.args.onNewVersion
+    ? this.args.onNewVersion
+    : () => {};
+  @tracked onError = this.args.onError
+    ? this.args.onError
+    : (e) => {
+        if (!Ember.testing) {
+          console.log(e);
+        }
+      };
 
   // internal state:
-  lastVersion: null,
-  version: null,
+  @tracked message = '';
+  @tracked lastVersion = null;
+  @tracked version = null;
 
-  _fastboot: computed(function () {
+  get _fastboot() {
     let owner = getOwner(this);
     return owner.lookup('service:fastboot');
-  }),
+  }
 
-  url: computed('versionFileName', function () {
+  get url() {
     const config = getOwner(this).resolveRegistration('config:environment');
-    const versionFileName =
-      get(config, 'newVersion.fileName') || this.versionFileName;
+    const versionFileName = config.newVersion?.fileName || this.versionFileName;
     const baseUrl =
-      get(config, 'newVersion.prepend') || config.rootURL || config.baseURL;
+      config.newVersion?.prepend || config.rootURL || config.baseURL;
 
     if (!config || baseUrl === '/') {
       return versionFileName;
     }
 
     return baseUrl + versionFileName;
-  }).readOnly(),
+  }
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
-    if (this.get('_fastboot.isFastBoot')) {
+    if (this._fastboot?.isFastBoot) {
       return;
     }
 
@@ -79,18 +79,15 @@ export default Component.extend({
         this.updateVersion.perform();
       }
     }
-  },
+  }
 
-  updateIntervalWithTesting: computed(
-    'updateInterval',
-    'enableInTests',
-    function () {
-      let enableInTests = this.enableInTests;
-      return !enableInTests && Ember.testing ? 0 : this.updateInterval;
-    }
-  ),
+  get updateIntervalWithTesting() {
+    let enableInTests = this.enableInTests;
+    return !enableInTests && Ember.testing ? 0 : this.updateInterval;
+  }
 
-  updateVersion: task(function* () {
+  @task
+  *updateVersion() {
     const url = this.url;
 
     try {
@@ -108,14 +105,13 @@ export default Component.extend({
               .replace('{oldVersion}', currentVersion)
               .replace('{newVersion}', newVersion);
 
-            this.setProperties({
-              message,
-              lastVersion: currentVersion,
-            });
+            this.message = message;
+            this.lastVersion = currentVersion;
+
             this.onNewVersion(newVersion, currentVersion);
           }
 
-          this.set('version', newVersion);
+          this.version = newVersion;
         });
     } catch (e) {
       this.onError(e);
@@ -136,21 +132,19 @@ export default Component.extend({
       }
       this.updateVersion.perform();
     }
-  }),
+  }
 
   updateNeeded(currentVersion, newVersion) {
     return currentVersion && newVersion !== currentVersion;
-  },
+  }
 
-  actions: {
-    reload() {
-      if (typeof window !== 'undefined' && window.location) {
-        window.location.reload(true);
-      }
-    },
+  reload() {
+    if (typeof window !== 'undefined' && window.location) {
+      window.location.reload(true);
+    }
+  }
 
-    close() {
-      this.set('message', undefined);
-    },
-  },
-});
+  close() {
+    this.message = undefined;
+  }
+}
