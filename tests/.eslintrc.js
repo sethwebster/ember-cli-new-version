@@ -1,9 +1,9 @@
 module.exports = {
   env: {
-    embertest: true
+    embertest: true,
   },
-  "globals": {
-    "stop": true,
-    "start": true,
-  }
+  globals: {
+    stop: true,
+    start: true,
+  },
 };
