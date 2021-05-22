@@ -71,7 +71,7 @@
     "broccoli-file-creator": "^2.1.1",
     "ember-cli-babel": "^7.22.1",
     "ember-cli-htmlbars": "^5.3.1",
-    "ember-concurrency": "^2.0.2"
+    "ember-concurrency": "^1.0.0 || ^2.0.2"
   },
   "ember": {
     "edition": "octane"
