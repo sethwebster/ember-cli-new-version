@@ -5,6 +5,7 @@ import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 import fetch from 'fetch';
 import { later } from '@ember/runloop';
+import { waitFor } from '@ember/test-waiters';
 
 let taskRunCounter = 0;
 
@@ -87,6 +88,7 @@ export default class NewVersionNotifier extends Component {
   }
 
   @task
+  @waitFor
   *updateVersion() {
     const url = this.url;
 
