@@ -9,7 +9,7 @@ module.exports = {
   /**
    * Store `ember-cli-build.js` options
    */
-  included: function (app /*, parentAddon*/) {
+  included(app /*, parentAddon*/) {
     this._super.included.apply(this, arguments);
     this._options = app.options.newVersion || {};
 
@@ -23,7 +23,7 @@ module.exports = {
   /**
    * Copy version from `ember-cli-app-version`
    */
-  config: function (env, baseConfig) {
+  config(env, baseConfig) {
     this._appVersion = baseConfig.APP.version || null;
   },
 
@@ -34,7 +34,7 @@ module.exports = {
    *  - ember-cli-app-version if installed
    *  - package.json of consuming application or
    */
-  treeForPublic: function () {
+  treeForPublic() {
     let detectedVersion;
 
     if (this._options.useAppVersion && this._appVersion) {
