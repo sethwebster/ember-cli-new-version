@@ -1,6 +1,6 @@
 {{#if this.message}}
   {{#if (has-block)}}
-    {{yield this.version this.lastVersion this.reload this.close}}
+    {{yield this.newVersion.latestVersion this.newVersion.currentVersion this.reload this.close}}
   {{else}}
     <div class='update-notification'>
       {{this.message}}
