@@ -9,7 +9,6 @@ import { task, timeout } from 'ember-concurrency';
 import fetch from 'fetch';
 
 let taskRunCounter = 0;
-const MAX_COUNT_IN_TESTING = 10;
 const ONE_MINUTE = 60000;
 
 /**
@@ -18,6 +17,7 @@ const ONE_MINUTE = 60000;
  * @property {number} firstCheckInterval
  * @property {number} updateInterval
  * @property {boolean} enableInTests
+ * @property {number} maxCountInTesting
  * @property {string} currentVersion
  */
 
@@ -40,6 +40,7 @@ export default class NewVersionService extends Service {
       firstCheckInterval: 0,
       updateInterval: 60000,
       enableInTests: false,
+      maxCountInTesting: 10,
     };
 
     return Object.assign(defaultConfiguration, this._config.newVersion);
@@ -155,7 +156,10 @@ export default class NewVersionService extends Service {
 
       yield timeout(updateInterval);
 
-      if (Ember.testing && ++taskRunCounter > MAX_COUNT_IN_TESTING) {
+      if (
+        Ember.testing &&
+        ++taskRunCounter > this._newVersionConfig.maxCountInTesting
+      ) {
         return;
       }
 
