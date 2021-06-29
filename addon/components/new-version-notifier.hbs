@@ -1,0 +1,17 @@
+{{#if this.message}}
+  {{#if (has-block)}}
+    {{yield this.newVersion.latestVersion this.newVersion.currentVersion this.reload this.close}}
+  {{else}}
+    <div class='update-notification'>
+      {{this.message}}
+      {{#if this.showReload}}
+        <a href='' class='update-notification__btn' {{on 'click' this.reload}}>
+          {{this.reloadButtonText}}
+        </a>
+      {{/if}}
+      <a href='' class='update-notification__close' {{on 'click' this.close}}>
+        ×
+      </a>
+    </div>
+  {{/if}}
+{{/if}}

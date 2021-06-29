@@ -4,5 +4,5 @@ module.exports = {
   afterInstall() {
     // Add addons to package.json and run defaultBlueprint
     return this.addAddonToProject('ember-fetch');
-  }
+  },
 };
