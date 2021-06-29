@@ -82,11 +82,6 @@ export default class NewVersionService extends Service {
     const versionFileName = this._newVersionConfig.versionFileName;
     const baseUrl =
       this._config.prepend || this._config.rootURL || this._config.baseURL;
-
-    if (!this._config || baseUrl === '/') {
-      return versionFileName;
-    }
-
     return baseUrl + versionFileName;
   }
 
