@@ -54,7 +54,8 @@
     "prettier": "^2.3.2",
     "qunit": "^2.16.0",
     "qunit-dom": "^1.6.0",
-    "standard-version": "^9.3.0"
+    "standard-version": "^9.3.0",
+    "webpack": "^5.64.2"
   },
   "keywords": [
     "ember-addon",
