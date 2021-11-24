@@ -2,6 +2,117 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/sethwebster/ember-cli-new-version/compare/v2.0.2...v3.0.0) (2021-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drop Node < 12
+* Drop Ember.js < 3.20 and CLI < 3.20
+* use GC for notifier
+
+* fix: update waitFor
+
+* fix: update deps
+* introduces a new version service. Some arguments from the components have been moved here and other moved to the configuration.
+* How the version check happens has also changed, see https://github.com/sethwebster/ember-cli-new-version/pull/94
+
+* Enable JS code checking
+
+* Extract new version fetching and checking from the NewVersionNotifier component in a service
+
+The logic is now in a service so that it can be used independently of the action.
+
+There are slight behaviour changes and new behaviours as well.
+
+The service contains an observable `isNewVersionAvailable` property.
+This property is set to true when a new version is available.
+
+The version checking is slightly different: before, the first check was ignored because the component was comparing the previously fetched version and the latest fetched version.
+Now, the version is always checked against the version provided in environment.js. This thus means the comparison is always done against the compiled version of the app.
+
+The component had a way to ignore a version, by setting the next version to check to the latest fetched version. To keep the compatibility with this behaviour, there is now an explicit list of "ignore versions" in the service, populated when the user closes the `NewVersionNotifier`. Note that this list is kept in memory only and when the user reloads the page, the list is empty again. This is the same behaviour as before.
+
+I kept the code related to testing in the service to limit the changes, but this could be moved in the TestNewVersionService implementation so that the original NewVersionService is kept clean of testing behaviour.
+
+The onNewVersion action still exists but is now in the service. If one needs this callback, he/she can overload the NewVersionService and override onNewVersion. Same thing for onError.
+
+Some properties that were arguments of the component have been moved to the configuration.
+
+* Fix dependencies declaration
+
+Some addon dependencies were declared in devDependencies while they are needed by the addon to run.
+
+* Make MAX_COUNT_IN_TESTING a configuration variable
+
+This let tests override this option as needed.
+
+* fix: keep the initial slash for fetching VERSION.txt
+
+Before this commit, the fetch of VERSION.txt with a default configuration would result to calling "VERSION.txt", which means "fetch the file relative to the current page URL".
+
+This may lead to issue in production, but leads to issues in some tests situation when using `ember test` where the full path to VERSION.txt is resolved to `/VERSION.txt` when declaring it in tests, while it is resolved to `http://localhost:7357/some-random-numbers/tests/VERSION.txt` when fetching the file.
+
+This commit fixes the issue by not removing the `/` in front of VERSION.txt.
+
+This fixes the isse for my scenarios; but I am not sure why there was this check and removal of the `/` in the first place, this thus may lead to breaking changes for some.
+
+Co-authored-by: Ilya Radchenko <knownasilya@gmail.com>
+* introduces a new version service. Some arguments from the components have been moved here and other moved to the configuration.
+* How the version check happens has also changed, see https://github.com/sethwebster/ember-cli-new-version/pull/94
+
+* Enable JS code checking
+
+* Extract new version fetching and checking from the NewVersionNotifier component in a service
+
+The logic is now in a service so that it can be used independently of the action.
+
+There are slight behaviour changes and new behaviours as well.
+
+The service contains an observable `isNewVersionAvailable` property.
+This property is set to true when a new version is available.
+
+The version checking is slightly different: before, the first check was ignored because the component was comparing the previously fetched version and the latest fetched version.
+Now, the version is always checked against the version provided in environment.js. This thus means the comparison is always done against the compiled version of the app.
+
+The component had a way to ignore a version, by setting the next version to check to the latest fetched version. To keep the compatibility with this behaviour, there is now an explicit list of "ignore versions" in the service, populated when the user closes the `NewVersionNotifier`. Note that this list is kept in memory only and when the user reloads the page, the list is empty again. This is the same behaviour as before.
+
+I kept the code related to testing in the service to limit the changes, but this could be moved in the TestNewVersionService implementation so that the original NewVersionService is kept clean of testing behaviour.
+
+The onNewVersion action still exists but is now in the service. If one needs this callback, he/she can overload the NewVersionService and override onNewVersion. Same thing for onError.
+
+Some properties that were arguments of the component have been moved to the configuration.
+
+* Fix dependencies declaration
+
+Some addon dependencies were declared in devDependencies while they are needed by the addon to run.
+* use GC for notifier
+* Drop ember-concurrency < v1, update Ember deps.
+* Drop Ember < 3.16 (might still work, but untested going forward)
+* Drop Node < 10
+
+### Features
+
+* Extract new version fetching and checking from the NewVersionNotifier component in a service ([#94](https://github.com/sethwebster/ember-cli-new-version/issues/94)) ([83c3528](https://github.com/sethwebster/ember-cli-new-version/commit/83c35280e847aa27a831334ff55ed29424396df4))
+* Make MAX_COUNT_IN_TESTING a configuration variable ([#95](https://github.com/sethwebster/ember-cli-new-version/issues/95)) ([ba20169](https://github.com/sethwebster/ember-cli-new-version/commit/ba20169a58551b7e775aefb7b3c25e8a445981d2))
+
+
+### Bug Fixes
+
+* allow ec v1 as well ([32d086d](https://github.com/sethwebster/ember-cli-new-version/commit/32d086dfd9b5c3c60a376b311f297294c92a738c))
+* Ember v3.22.0...v3.26.1 ([e27600c](https://github.com/sethwebster/ember-cli-new-version/commit/e27600ca18e78584831336ce52edef04657e5761))
+* Fix tests & Upgrade ember concurrency to 2.0 ([#81](https://github.com/sethwebster/ember-cli-new-version/issues/81)) ([5e111b1](https://github.com/sethwebster/ember-cli-new-version/commit/5e111b1cd2775aa9c180c80845c003df23ed54fb))
+* keep the initial slash for fetching VERSION.txt ([#99](https://github.com/sethwebster/ember-cli-new-version/issues/99)) ([1daf826](https://github.com/sethwebster/ember-cli-new-version/commit/1daf826874dc166e15d94258f399f7fc2ce6c0c3)), closes [#94](https://github.com/sethwebster/ember-cli-new-version/issues/94)
+* regenerator v1 ([22bde5d](https://github.com/sethwebster/ember-cli-new-version/commit/22bde5d3e39fee99da163cb280d6ac78fd6f2ee5))
+* update dep path and lockfile ([f446068](https://github.com/sethwebster/ember-cli-new-version/commit/f446068b9b1a05fd1a3e3a01bfd21ee44eee3189))
+* update deps ([0fa7890](https://github.com/sethwebster/ember-cli-new-version/commit/0fa7890d1fe5a8d42dba711550c11ae11787cc15))
+* update to glimmer component ([9b2abb7](https://github.com/sethwebster/ember-cli-new-version/commit/9b2abb7e7e2fd8ee76a95da83d8f540307220c3d))
+* update waitFor ([244011e](https://github.com/sethwebster/ember-cli-new-version/commit/244011eecc4cbec02e6edde9888c5143bb981f0f))
+* Upgrade v3.11.0...v3.22.0 ([3ecab5c](https://github.com/sethwebster/ember-cli-new-version/commit/3ecab5c358aa403d398ba42b4fb5cbed53924f91))
+* use https version of import regen dep for ci ([1b8adc3](https://github.com/sethwebster/ember-cli-new-version/commit/1b8adc3c31b5e281edfc47ad37dea9bb9ce76930))
+* use node 14 in tests and pin volta ([43d98f0](https://github.com/sethwebster/ember-cli-new-version/commit/43d98f0cc5594e01916062cfc297ba888e5557ea))
+* v3.26.1...v3.28.4 ([9722fdf](https://github.com/sethwebster/ember-cli-new-version/commit/9722fdff976a7fbac3f201bf9c898b64f94c5a33))
+
 ### [2.0.2](https://github.com/sethwebster/ember-cli-new-version/compare/v2.0.1...v2.0.2) (2020-11-11)
 
 
