@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "checkJs": true,
+    "target": "es2018",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "ember-cli-new-version/*": [
+        "addon/*"
+      ]
+    }
+  }
+}
