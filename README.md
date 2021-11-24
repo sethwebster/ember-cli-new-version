@@ -65,8 +65,8 @@ to use a different framework, then you can define your own markup for the notifi
 <NewVersionNotifier as |version lastVersion reload close|>
   <div class='custom-notification'>
     Reload to update to the new version ({{version}}) of this application
-    <button type='button' onclick={{action reload}}>Reload</button>
-    <button type='button' onclick={{action close}}>Close</button>
+    <button type='button' {{on 'click' this.reload}}>Reload</button>
+    <button type='button' {{on 'click' this.close}}>Close</button>
   </div>
 </NewVersionNotifier>
 ```
