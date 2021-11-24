@@ -6,6 +6,8 @@ import { module, test } from 'qunit';
 import setupMirage from '../../helpers/setup-mirage';
 
 class TestNewVersionService extends NewVersionService {
+  _isTesting = true;
+
   get _newVersionConfig() {
     const config = super._newVersionConfig;
     config.enableInTests = true;

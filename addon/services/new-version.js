@@ -4,7 +4,6 @@ import { later } from '@ember/runloop';
 import Service from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 import fetch from 'fetch';
 
@@ -22,6 +21,8 @@ const ONE_MINUTE = 60000;
  */
 
 export default class NewVersionService extends Service {
+  _isTesting = false;
+
   get _fastboot() {
     let owner = getOwner(this);
     return owner.lookup('service:fastboot');
@@ -87,7 +88,7 @@ export default class NewVersionService extends Service {
 
   get updateIntervalWithTesting() {
     let enableInTests = this._newVersionConfig.enableInTests;
-    return !enableInTests && Ember.testing
+    return !enableInTests && this._isTesting
       ? 0
       : this._newVersionConfig.updateInterval;
   }
@@ -100,11 +101,11 @@ export default class NewVersionService extends Service {
     }
 
     // TODO: move the testing logic to a test version of the service
-    if (Ember.testing) {
+    if (this._isTesting) {
       taskRunCounter = 0;
     }
 
-    if (!Ember.testing || this._newVersionConfig.enableInTests) {
+    if (!this._isTesting || this._newVersionConfig.enableInTests) {
       if (this._newVersionConfig.firstCheckInterval > 0) {
         later(
           this,
@@ -152,13 +153,13 @@ export default class NewVersionService extends Service {
       yield timeout(updateInterval);
 
       if (
-        Ember.testing &&
+        this._isTesting &&
         ++taskRunCounter > this._newVersionConfig.maxCountInTesting
       ) {
         return;
       }
 
-      if (Ember.testing && !this._newVersionConfig.enableInTests) {
+      if (this._isTesting && !this._newVersionConfig.enableInTests) {
         return;
       }
       this.updateVersion.perform();
@@ -181,7 +182,7 @@ export default class NewVersionService extends Service {
   }
 
   onError(error) {
-    if (!Ember.testing) {
+    if (!this._isTesting) {
       console.log(error);
     }
   }

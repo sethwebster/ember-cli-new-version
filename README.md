@@ -1,68 +1,72 @@
 # ember-cli-new-version
 
-[![Build Status](https://travis-ci.org/sethwebster/ember-cli-new-version.svg?branch=master)](https://travis-ci.org/sethwebster/ember-cli-new-version)
+[![CI](https://github.com/sethwebster/ember-cli-new-version/actions/workflows/ci.yml/badge.svg)](https://github.com/sethwebster/ember-cli-new-version/actions/workflows/ci.yml)
 
 A convention-based version update notifier. Use it to notify users already on the page that a new version has been deployed.
 
 ## Compatibility
 
-* Ember.js v3.20 or above
-* Ember CLI v3.20 or above
-* Node.js v12 or above
+- Ember.js v3.20 or above
+- Ember CLI v3.20 or above
+- Node.js v12 or above
 
 ## Usage
 
 1. Add this add-on as you would any other:
-  ```bash
-  > ember install ember-cli-new-version
-  ```
+
+```bash
+> ember install ember-cli-new-version
+```
 
 2. Add a version file to your app, eg:
-  _./public/VERSION.txt_
+   _./public/VERSION.txt_
 
-  ```bash
-  1.0.0
-  ```
+```bash
+1.0.0
+```
 
 3. Include the component in your view:
-  ```handlebars
-  <NewVersionNotifier/>
-  ```
+
+```handlebars
+<NewVersionNotifier />
+```
 
 **voila**!
 
-### Options ###
-----
-* `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
-* `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
-* `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
-* `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: `{newVersion}` and `{oldVersion}` which will replaced with their respective values.
+### Options
+
+---
+
+- `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
+- `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
+- `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
+- `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: `{newVersion}` and `{oldVersion}` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {oldVersion} to {newVersion}. Please save any work, then refresh browser to see changes."
-* `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
-* `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
-* `onNewVersion(newVersion, oldVersion)` - a closure action that is called whenever a new version is detected. You can use this to track the version status elsewhere in your app (outside the component).
-* `updateNeeded(oldVersion, newVersion)` - a function that is called to check if an update message should be shown.   For example, a function could be passed that only shows a message on major version changes. **default: Always show message on any version change**
+- `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
+- `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
+- `onNewVersion(newVersion, oldVersion)` - a closure action that is called whenever a new version is detected. You can use this to track the version status elsewhere in your app (outside the component).
+- `updateNeeded(oldVersion, newVersion)` - a function that is called to check if an update message should be shown. For example, a function could be passed that only shows a message on major version changes. **default: Always show message on any version change**
 
 ```handlebars
 <NewVersionNotifier
-  @versionFileName="/version"
-  @updateMessage="A new version was released: {newVersion}"
+  @versionFileName='/version'
+  @updateMessage='A new version was released: {newVersion}'
   @updateInterval={{150000}}
   @showReload={{true}}
 />
 ```
 
-### Custom Notification ###
+### Custom Notification
 
 By default the notification is styled as a Bootstrap Alert. If you want custom layouts or
 to use a different framework, then you can define your own markup for the notification.
 
 ```hbs
 <NewVersionNotifier as |version lastVersion reload close|>
-  <div class="custom-notification">
+  <div class='custom-notification'>
     Reload to update to the new version ({{version}}) of this application
-    <button type="button" onclick={{action reload}}>Reload</button>
-    <button type="button" onclick={{action close}}>Close</button>
+    <button type='button' {{on 'click' this.reload}}>Reload</button>
+    <button type='button' {{on 'click' this.close}}>Close</button>
   </div>
 </NewVersionNotifier>
 ```
@@ -74,10 +78,11 @@ You can opt-in to automatically generating a `VERSION.txt` during the build proc
 ```js
 let app = new EmberApp(defaults, {
   newVersion: {
-    enabled: true
-  }
+    enabled: true,
+  },
 });
 ```
+
 This will result in `dist/VERSION.txt` being created.
 
 To override the version filename:
@@ -86,10 +91,11 @@ To override the version filename:
 let app = new EmberApp(defaults, {
   newVersion: {
     enabled: true,
-    fileName: 'MY-VERSION.txt'
-  }
+    fileName: 'MY-VERSION.txt',
+  },
 });
 ```
+
 This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
 
 ### Supports `ember-cli-app-version`
@@ -104,18 +110,15 @@ Then an update is triggered based on full version strings with build metadata su
 let app = new EmberApp(defaults, {
   newVersion: {
     enabled: true,
-    useAppVersion: true
-  }
+    useAppVersion: true,
+  },
 });
 ```
 
-Contributing
-------------------------------------------------------------------------------
+## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
-
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).
