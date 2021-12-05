@@ -55,7 +55,7 @@ module.exports = function (environment) {
 * `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
 * `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
 * `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
-* `enableInTests` - Shoud the version checking run in test environments? **default: false**
+* `enableInTests` - Should the version checking run in test environments? **default: false**
 * `maxCountInTesting` - How many times to check for a new version in tests. **default: 10**
 
 
