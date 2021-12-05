@@ -35,22 +35,13 @@ export default class NewVersionService extends Service {
    * @type Configuration
    */
   get _newVersionConfig() {
-    const defaultConfiguration = {
-      versionFileName: 'VERSION.txt',
-      firstCheckInterval: 0,
-      updateInterval: 60000,
-      enableInTests: false,
-      maxCountInTesting: 10,
-    };
-
-    return Object.assign(defaultConfiguration, this._config.newVersion);
+    return this._config.newVersion;
   }
 
   /**
    * @type {string}
    */
   get currentVersion() {
-    // Users of the addon must set currentVersion.
     return this._newVersionConfig.currentVersion;
   }
 
