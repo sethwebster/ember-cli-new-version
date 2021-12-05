@@ -31,23 +31,64 @@ A convention-based version update notifier. Use it to notify users already on th
 
 **voila**!
 
-### Options ###
+## Configuration
+
+To setup, you should first configure the service through `config/environment`:
+
+```javascript
+module.exports = function (environment) {
+  var ENV = {
+    newVersion: {
+      currentVersion: null,
+      versionFileName: 'VERSION.txt',
+      updateInterval: 60000,
+      firstCheckInterval: 0,
+      createVersionFileAutomatically: false,
+      enableInTests: false,
+      maxCountInTesting: 10,    
+    },
+  };
+};
+```
+
 ----
+* `currentVersion` - The current version of the app if not using [Automatic VERSION file creation][#Automatic VERSION file creation] **default: null**
+* `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
 * `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
 * `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
-* `versionFileName` - the name of the file on the server to check **default: /VERSION.txt**
+* `enableInTests` - Shoud the version checking run in test environments? **default: false**
+* `maxCountInTesting` - How many times to check for a new version in tests. **default: 10**
+* `createVersionFileAutomatically` - Opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
+
+```js
+let app = new EmberApp(defaults, {
+  newVersion: {
+    enabled: true
+  }
+});
+```
+This will result in `dist/VERSION.txt` being created.
+
+### Supports `ember-cli-app-version`
+
+Since version 4.0.0 this addons will use the version string provided by [ember-cli-app-version](https://github.com/ember-cli/ember-cli-app-version) if no `currentVersion` is configured.
+
+All you have to do is install `ember-cli-app-version`.
+
+Then an update is triggered based on full version strings with build metadata such as `1.0.0-beta-2-e1dffe1`.
+
+
+### Notifier Configuration and Interface ###
+----
 * `updateMessage` - the message to show to users when update has been detected. There are two tokens allowed in this string: `{newVersion}` and `{oldVersion}` which will replaced with their respective values.
   eg. (and **default**). "This application has been updated from version {oldVersion} to {newVersion}. Please save any work, then refresh browser to see changes."
 * `showReload` - _true_ shows a reload button the user can click to refresh. _false_ hides the button. **default: true**
 * `reloadButtonText` - Sets the text for the default reload button. **default: "Reload"**
-* `onNewVersion(newVersion, oldVersion)` - a closure action that is called whenever a new version is detected. You can use this to track the version status elsewhere in your app (outside the component).
-* `updateNeeded(oldVersion, newVersion)` - a function that is called to check if an update message should be shown.   For example, a function could be passed that only shows a message on major version changes. **default: Always show message on any version change**
+
 
 ```handlebars
 <NewVersionNotifier
-  @versionFileName="/version"
   @updateMessage="A new version was released: {newVersion}"
-  @updateInterval={{150000}}
   @showReload={{true}}
 />
 ```
@@ -61,52 +102,10 @@ to use a different framework, then you can define your own markup for the notifi
 <NewVersionNotifier as |version lastVersion reload close|>
   <div class="custom-notification">
     Reload to update to the new version ({{version}}) of this application
-    <button type="button" onclick={{action reload}}>Reload</button>
-    <button type="button" onclick={{action close}}>Close</button>
+    <button type="button" {{on "click" reload}}>Reload</button>
+    <button type="button" {{on "click" close}}>Close</button>
   </div>
 </NewVersionNotifier>
-```
-
-## Automatic VERSION file creation
-
-You can opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
-
-```js
-let app = new EmberApp(defaults, {
-  newVersion: {
-    enabled: true
-  }
-});
-```
-This will result in `dist/VERSION.txt` being created.
-
-To override the version filename:
-
-```js
-let app = new EmberApp(defaults, {
-  newVersion: {
-    enabled: true,
-    fileName: 'MY-VERSION.txt'
-  }
-});
-```
-This will result in `dist/MY-VERSION.txt` being created. Note that this will also update the default `versionFileName` attribute in the `{{new-version-notifier}}` component.
-
-### Supports `ember-cli-app-version`
-
-Since version 1.2.0 this addons is able to use the version string provided by [ember-cli-app-version](https://github.com/ember-cli/ember-cli-app-version).
-
-All you have to do is install `ember-cli-app-version` and enable a flag in `ember-cli-build.js`.
-
-Then an update is triggered based on full version strings with build metadata such as `1.0.0-beta-2-e1dffe1`.
-
-```js
-let app = new EmberApp(defaults, {
-  newVersion: {
-    enabled: true,
-    useAppVersion: true
-  }
-});
 ```
 
 Contributing
