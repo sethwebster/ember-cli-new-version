@@ -16,7 +16,6 @@ module.exports = {
       updateInterval: 60000,
       enableInTests: false,
       maxCountInTesting: 10,
-      createVersionFileAutomatically: false,
     };
 
     baseConfig.newVersion = Object.assign(
@@ -43,13 +42,10 @@ module.exports = {
    * Write version file
    */
   treeForPublic() {
-    const { currentVersion, createVersionFileAutomatically, versionFileName } =
-      this._config;
-    if (currentVersion && createVersionFileAutomatically) {
-      const fileName = versionFileName;
-
-      this.ui.writeLine(`Created ${fileName} with ${currentVersion}`);
-      return writeFile(fileName, currentVersion);
+    const { currentVersion, versionFileName } = this._config;
+    if (currentVersion) {
+      this.ui.writeLine(`Created ${versionFileName} with ${currentVersion}`);
+      return writeFile(versionFileName, currentVersion);
     }
   },
 };
