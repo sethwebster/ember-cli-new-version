@@ -26,6 +26,9 @@ module.exports = function (environment) {
     'ember-cli-mirage': {
       enabled: false,
     },
+    newVersion: {
+      createVersionFileAutomatically: true,
+    },
   };
 
   if (environment === 'development') {

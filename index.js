@@ -7,49 +7,49 @@ module.exports = {
   name: require('./package').name,
 
   /**
-   * Store `ember-cli-build.js` options
-   */
-  included(app /*, parentAddon*/) {
-    this._super.included.apply(this, arguments);
-    this._options = app.options.newVersion || {};
-
-    if (this._options.enabled === true) {
-      this._options.fileName = this._options.fileName || 'VERSION.txt';
-      this._options.prepend = this._options.prepend || '';
-      this._options.useAppVersion = this._options.useAppVersion || false;
-    }
-  },
-
-  /**
-   * Copy version from `ember-cli-app-version`
+   * Setup default configuration options and auto detect the currentVersion if it isn't set manually
    */
   config(env, baseConfig) {
-    this._appVersion = baseConfig.APP.version || null;
+    const defaultConfiguration = {
+      versionFileName: 'VERSION.txt',
+      firstCheckInterval: 0,
+      updateInterval: 60000,
+      enableInTests: false,
+      maxCountInTesting: 10,
+      createVersionFileAutomatically: false,
+    };
+
+    baseConfig.newVersion = Object.assign(
+      defaultConfiguration,
+      baseConfig.newVersion
+    );
+
+    if (!baseConfig.newVersion.currentVersion) {
+      if (baseConfig.APP.version) {
+        //if `ember-cli-app-version` is installed use the detected version from that addon
+        baseConfig.newVersion.currentVersion = baseConfig.APP.version;
+      } else {
+        //otherwise use what is in package.json.
+        baseConfig.newVersion.currentVersion = this.parent.pkg.version;
+      }
+    }
+
+    this._config = baseConfig.newVersion;
+
+    return baseConfig;
   },
 
   /**
    * Write version file
-   *
-   * based on
-   *  - ember-cli-app-version if installed
-   *  - package.json of consuming application or
    */
   treeForPublic() {
-    let detectedVersion;
+    const { currentVersion, createVersionFileAutomatically, versionFileName } =
+      this._config;
+    if (currentVersion && createVersionFileAutomatically) {
+      const fileName = versionFileName;
 
-    if (this._options.useAppVersion && this._appVersion) {
-      detectedVersion = this._appVersion;
-    }
-
-    if (!detectedVersion) {
-      detectedVersion = this.parent.pkg.version;
-    }
-
-    if (detectedVersion && this._options.enabled) {
-      const fileName = this._options.fileName;
-
-      this.ui.writeLine(`Created ${fileName} with ${detectedVersion}`);
-      return writeFile(fileName, detectedVersion);
+      this.ui.writeLine(`Created ${fileName} with ${currentVersion}`);
+      return writeFile(fileName, currentVersion);
     }
   },
 };
