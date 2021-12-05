@@ -43,7 +43,6 @@ module.exports = function (environment) {
       versionFileName: 'VERSION.txt',
       updateInterval: 60000,
       firstCheckInterval: 0,
-      createVersionFileAutomatically: false,
       enableInTests: false,
       maxCountInTesting: 10,    
     },
@@ -58,16 +57,11 @@ module.exports = function (environment) {
 * `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
 * `enableInTests` - Shoud the version checking run in test environments? **default: false**
 * `maxCountInTesting` - How many times to check for a new version in tests. **default: 10**
-* `createVersionFileAutomatically` - Opt-in to automatically generating a `VERSION.txt` during the build process. Opting-in means you don't need maintain a `/public/VERSION.txt` in your project. Simply add the following to `ember-cli-build.js`:
 
-```js
-let app = new EmberApp(defaults, {
-  newVersion: {
-    enabled: true
-  }
-});
-```
-This will result in `dist/VERSION.txt` being created.
+
+## Automatic Version File Creation ##
+If no `VERSION.txt` file exists it will be automatically generated during the build process 
+with the value of `currentVersion` or the `version` from `package.json`.
 
 ### Supports `ember-cli-app-version`
 
@@ -76,7 +70,6 @@ Since version 4.0.0 this addons will use the version string provided by [ember-c
 All you have to do is install `ember-cli-app-version`.
 
 Then an update is triggered based on full version strings with build metadata such as `1.0.0-beta-2-e1dffe1`.
-
 
 ### Notifier Configuration and Interface ###
 ----
