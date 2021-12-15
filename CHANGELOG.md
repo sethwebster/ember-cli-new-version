@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/sethwebster/ember-cli-new-version/compare/v3.0.0...v4.0.0) (2021-12-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* The version file is always created, you must opt out now instead of opt in, see the README
+
+The way to opt out of this behavior is to include a VERSION.txt in the
+app, otherwise the file will be created automatically. When a
+VERSION.txt file exists the treeForPublic build step won't overwrite it.
+
+Co-authored-by: Ilya Radchenko <knownasilya@gmail.com>
+* config options come from a new place, see the readme
+
+### Features
+
+* Always create the version file ([da01a6f](https://github.com/sethwebster/ember-cli-new-version/commit/da01a6f5c19f6cf2fc37f9c45d522d7f3824c507))
+
+
+### Bug Fixes
+
+* Do configuration during build ([2fe8486](https://github.com/sethwebster/ember-cli-new-version/commit/2fe8486cf55fd6ce07309f1f772b77a042df10fc))
+
 ## [3.0.0](https://github.com/sethwebster/ember-cli-new-version/compare/v2.0.2...v3.0.0) (2021-11-24)
 
 
