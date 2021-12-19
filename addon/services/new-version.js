@@ -50,7 +50,7 @@ export default class NewVersionService extends Service {
    */
   @tracked latestVersion = undefined;
 
-  ignoredVersions = A();
+  ignoredVersions = [];
 
   /**
    * Templates can use this attribute to show or hide a proposition to reload the page.
@@ -128,7 +128,7 @@ export default class NewVersionService extends Service {
           if (this.isNewVersionAvailable) {
             this.onNewVersion(
               this.latestVersion,
-              this.ignoredVersions.lastObject || this.currentVersion
+              this.ignoredVersions[this.ignoredVersions.length - 1] || this.currentVersion
             );
           }
         });
@@ -163,7 +163,7 @@ export default class NewVersionService extends Service {
    * @param {string} version
    */
   ignoreVersion(version) {
-    this.ignoredVersions.push(version);
+    this.ignoredVersions = [...this.ignoredVersions, version];
   }
 
   // eslint-disable-next-line no-unused-vars
