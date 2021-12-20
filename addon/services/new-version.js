@@ -1,5 +1,4 @@
 import { getOwner } from '@ember/application';
-import { A } from '@ember/array';
 import { later } from '@ember/runloop';
 import Service from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -128,7 +127,8 @@ export default class NewVersionService extends Service {
           if (this.isNewVersionAvailable) {
             this.onNewVersion(
               this.latestVersion,
-              this.ignoredVersions[this.ignoredVersions.length - 1] || this.currentVersion
+              this.ignoredVersions[this.ignoredVersions.length - 1] ||
+                this.currentVersion
             );
           }
         });
