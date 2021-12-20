@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class NewVersionNotifier extends Component {
   /** @type {import("ember-cli-new-version/services/new-version").default} */
@@ -25,10 +26,14 @@ export default class NewVersionNotifier extends Component {
     return undefined;
   }
 
+  @action
   close() {
     this.newVersion.ignoreVersion(this.newVersion.latestVersion);
+
+    return false;
   }
 
+  @action
   reload() {
     if (typeof window !== 'undefined' && window.location) {
       window.location.reload(true);
