@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/sethwebster/ember-cli-new-version/compare/v4.0.0...v4.0.1) (2021-12-20)
+
+
+### Bug Fixes
+
+* action decorators not used in places ([#107](https://github.com/sethwebster/ember-cli-new-version/issues/107)) ([4cefaea](https://github.com/sethwebster/ember-cli-new-version/commit/4cefaeaf4a620d89f5342223ce634a7fad383fb2)), closes [#105](https://github.com/sethwebster/ember-cli-new-version/issues/105)
+
 ## [4.0.0](https://github.com/sethwebster/ember-cli-new-version/compare/v3.0.0...v4.0.0) (2021-12-15)
 
 
