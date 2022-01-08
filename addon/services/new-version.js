@@ -49,7 +49,7 @@ export default class NewVersionService extends Service {
    */
   @tracked latestVersion = undefined;
 
-  ignoredVersions = [];
+  @tracked ignoredVersions = [];
 
   /**
    * Templates can use this attribute to show or hide a proposition to reload the page.
