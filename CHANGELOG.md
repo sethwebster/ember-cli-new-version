@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.2](https://github.com/sethwebster/ember-cli-new-version/compare/v4.0.1...v4.0.2) (2022-01-12)
+
+
+### Bug Fixes
+
+* add tracking context to ignoredVersions ([#109](https://github.com/sethwebster/ember-cli-new-version/issues/109)) ([a2fcf70](https://github.com/sethwebster/ember-cli-new-version/commit/a2fcf708a15f877726e04e1ab4f3178fa2d7c6e3))
+
 ### [4.0.1](https://github.com/sethwebster/ember-cli-new-version/compare/v4.0.0...v4.0.1) (2021-12-20)
 
 
