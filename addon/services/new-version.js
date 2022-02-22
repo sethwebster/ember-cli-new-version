@@ -16,6 +16,7 @@ const ONE_MINUTE = 60000;
  * @property {number} firstCheckInterval
  * @property {number} updateInterval
  * @property {boolean} enableInTests
+ * * @property {boolean} enableInDev
  * @property {number} maxCountInTesting
  * @property {string} currentVersion
  */
@@ -28,6 +29,10 @@ export default class NewVersionService extends Service {
 
   get _config() {
     return getOwner(this).resolveRegistration('config:environment');
+  }
+
+  get isDev() {
+    return this._config.environment === 'development';
   }
 
   /**
@@ -94,7 +99,7 @@ export default class NewVersionService extends Service {
       taskRunCounter = 0;
     }
 
-    if (!Ember.testing || this._newVersionConfig.enableInTests) {
+    if ((!Ember.testing || this._newVersionConfig.enableInTests) && (!this.isDev || this._newVersionConfig.enableInDev)) {
       if (this._newVersionConfig.firstCheckInterval > 0) {
         later(
           this,
