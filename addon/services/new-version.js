@@ -16,7 +16,7 @@ const ONE_MINUTE = 60000;
  * @property {number} firstCheckInterval
  * @property {number} updateInterval
  * @property {boolean} enableInTests
- * * @property {boolean} enableInDev
+ * @property {boolean} enableInDev
  * @property {number} maxCountInTesting
  * @property {string} currentVersion
  */
