@@ -22,6 +22,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2",
+    "@ember/test-waiters": "^2.4.5",
     "@embroider/test-setup": "^1.5.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
@@ -75,7 +76,6 @@
     "test": "tests"
   },
   "dependencies": {
-    "@ember/test-waiters": "^2.4.4",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "broccoli-file-creator": "^2.1.1",
