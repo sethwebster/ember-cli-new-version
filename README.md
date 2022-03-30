@@ -44,6 +44,7 @@ module.exports = function (environment) {
       updateInterval: 60000,
       firstCheckInterval: 0,
       enableInTests: false,
+      enableInDev: false,
       maxCountInTesting: 10,    
     },
   };
@@ -56,6 +57,7 @@ module.exports = function (environment) {
 * `updateInterval` - the amount of time, in milliseconds, to wait between version checks **default: 60000**
 * `firstCheckInterval` - the amount of time, in milliseconds, to wait before the first version check is run after booting the application **default: 0**
 * `enableInTests` - Should the version checking run in test environments? **default: false**
+* `enableInDev` - Should the version checking run in the dev environments? **default: false**
 * `maxCountInTesting` - How many times to check for a new version in tests. **default: 10**
 
 
