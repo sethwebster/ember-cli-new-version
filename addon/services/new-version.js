@@ -100,9 +100,9 @@ export default class NewVersionService extends Service {
     }
 
     if (
-        (!Ember.testing || this._newVersionConfig.enableInTests) && 
-        (!this.isDev || this._newVersionConfig.enableInDev)
-      ) {
+      (!Ember.testing || this._newVersionConfig.enableInTests) &&
+      (!this.isDev || this._newVersionConfig.enableInDev)
+    ) {
       if (this._newVersionConfig.firstCheckInterval > 0) {
         later(
           this,
