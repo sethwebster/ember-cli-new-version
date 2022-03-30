@@ -15,6 +15,7 @@ module.exports = {
       firstCheckInterval: 0,
       updateInterval: 60000,
       enableInTests: false,
+      enableInDev: false,
       maxCountInTesting: 10,
     };
 
