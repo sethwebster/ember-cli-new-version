@@ -3,7 +3,7 @@ import NewVersionService from 'ember-cli-new-version/services/new-version';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-import setupMirage from '../../helpers/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 class TestNewVersionService extends NewVersionService {
   get _newVersionConfig() {

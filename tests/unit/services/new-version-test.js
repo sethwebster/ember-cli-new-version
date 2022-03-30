@@ -3,7 +3,7 @@ import Mirage from 'ember-cli-mirage';
 import NewVersionService from 'ember-cli-new-version/services/new-version';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import setupMirage from '../../helpers/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 class TestNewVersionService extends NewVersionService {
   get _newVersionConfig() {
