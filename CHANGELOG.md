@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/sethwebster/ember-cli-new-version/compare/v4.0.2...v4.1.0) (2022-03-30)
+
+
+### Features
+
+* Allow disabling in dev ([#117](https://github.com/sethwebster/ember-cli-new-version/issues/117)) ([6eb5a64](https://github.com/sethwebster/ember-cli-new-version/commit/6eb5a648697972d34df9e8b1e119005ce7cd7237))
+
+
+### Bug Fixes
+
+* add @ember/test-waiters dep ([6df382f](https://github.com/sethwebster/ember-cli-new-version/commit/6df382fe7858767a84c1aba6bbc6b6893835e91d))
+* replace/remove old test helpers/resolver ([66db025](https://github.com/sethwebster/ember-cli-new-version/commit/66db025353271c2d451e1c76290856a31730a7f9))
+
 ### [4.0.2](https://github.com/sethwebster/ember-cli-new-version/compare/v4.0.1...v4.0.2) (2022-01-12)
 
 
