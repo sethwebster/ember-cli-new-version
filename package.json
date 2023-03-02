@@ -1,5 +1,5 @@
 {
-  "name": "kb@/ember-cli-new-version",
+  "name": "@kb/ember-cli-new-version",
   "version": "4.1.2",
   "description": "A convention based update notification for Ember. With this addon, you can detect a new version and notify the user to refresh the page",
   "scripts": {
