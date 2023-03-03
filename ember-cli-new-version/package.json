@@ -58,7 +58,10 @@
     "edition": "octane"
   },
   "ember-addon": {
-    "app-js": {},
+    "app-js": {
+      "./components/new-version-notifier.js": "./dist/_app_/components/new-version-notifier.js",
+      "./services/new-version.js": "./dist/_app_/services/new-version.js"
+    },
     "main": "addon-main.cjs",
     "type": "addon",
     "version": 2
