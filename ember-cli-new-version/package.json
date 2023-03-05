@@ -47,6 +47,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "@ember/test-waiters": "^3.0.2",
     "@embroider/addon-shim": "^1.8.4",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
