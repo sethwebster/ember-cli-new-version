@@ -16,6 +16,7 @@ module.exports = {
       updateInterval: 60000,
       enableInTests: false,
       enableInDev: false,
+      writeVersionFile: true,
       maxCountInTesting: 10,
     };
 
@@ -43,8 +44,8 @@ module.exports = {
    * Write version file
    */
   treeForPublic() {
-    const { currentVersion, versionFileName } = this._config;
-    if (currentVersion) {
+    const { currentVersion, versionFileName, writeVersionFile } = this._config;
+    if (currentVersion && writeVersionFile) {
       this.ui.writeLine(`Created ${versionFileName} with ${currentVersion}`);
       return writeFile(versionFileName, currentVersion);
     }
