@@ -1,9 +1,9 @@
 import { waitUntil } from '@ember/test-helpers';
-import Mirage from 'ember-cli-mirage';
 import NewVersionService from 'ember-cli-new-version/services/new-version';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { Response } from 'miragejs';
 
 class TestNewVersionService extends NewVersionService {
   get _newVersionConfig() {
@@ -98,7 +98,7 @@ module('Unit | Service | new-version', function (hooks) {
       setTimeout(() => {
         called = true;
       }, 100);
-      return new Mirage.Response(500, {}, { message: '' });
+      return new Response(500, {}, { message: '' });
     });
 
     let onErrorCalled = false;
@@ -127,7 +127,7 @@ module('Unit | Service | new-version', function (hooks) {
       ++callCount;
 
       if (callCount === 1) {
-        return new Mirage.Response(500, {}, { message: '' });
+        return new Response(500, {}, { message: '' });
       }
 
       return 'v1.0.3';
