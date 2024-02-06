@@ -1,5 +1,4 @@
 import { getOwner } from '@ember/application';
-import { later } from '@ember/runloop';
 import Service from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
@@ -104,17 +103,18 @@ export default class NewVersionService extends Service {
       (!this.isDev || this._newVersionConfig.enableInDev)
     ) {
       if (this._newVersionConfig.firstCheckInterval > 0) {
-        later(
-          this,
-          () => {
-            this.updateVersion.perform();
-          },
-          this._newVersionConfig.firstCheckInterval,
-        );
+        this._firstCheck.perform();
       } else {
         this.updateVersion.perform();
       }
     }
+  }
+
+  @task
+  @waitFor
+  *_firstCheck() {
+    yield timeout(this._newVersionConfig.firstCheckInterval);
+    yield this.updateVersion.perform();
   }
 
   @task
