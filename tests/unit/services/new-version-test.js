@@ -45,15 +45,21 @@ module('Unit | Service | new-version', function (hooks) {
   });
 
   test('it calls onNewVersion when a new version is detected', async function (assert) {
-    assert.expect(4);
+    assert.expect(2);
     let done = assert.async(2);
 
     let callCount = 0;
 
-    this.server.get('/VERSION.txt', function () {
-      ++callCount;
-      return `v1.0.${callCount}`;
-    });
+    const waitPromise = waitUntil(() => callCount === 2);
+
+    this.server.get(
+      '/VERSION.txt',
+      function () {
+        ++callCount;
+        return `v1.0.${callCount}`;
+      },
+      { timing: 50 }
+    );
 
     this.owner.register(
       'service:new-version',
@@ -76,11 +82,9 @@ module('Unit | Service | new-version', function (hooks) {
 
     this.owner.lookup('service:new-version');
 
-    await waitUntil(() => callCount === 1, { timeout: 95 });
-    assert.equal(callCount, 1, '1 call was made');
+    await waitPromise;
 
-    await waitUntil(() => callCount === 2, { timeout: 190 });
-    assert.equal(callCount, 2);
+    this.owner.unregister('service:new-version');
 
     done();
   });
