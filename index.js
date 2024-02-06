@@ -5,6 +5,13 @@ const writeFile = require('broccoli-file-creator');
 
 module.exports = {
   name: require('./package').name,
+  options: {
+    babel: {
+      plugins: [
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
+    },
+  },
 
   /**
    * Setup default configuration options and auto detect the currentVersion if it isn't set manually

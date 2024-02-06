@@ -110,61 +110,61 @@ export default class NewVersionService extends Service {
     }
   }
 
-  @task
-  @waitFor
-  *_firstCheck() {
-    yield timeout(this._newVersionConfig.firstCheckInterval);
-    yield this.updateVersion.perform();
-  }
+  _firstCheck = task(
+    waitFor(async () => {
+      await timeout(this._newVersionConfig.firstCheckInterval);
+      await this.updateVersion.perform();
+    }),
+  );
 
-  @task
-  @waitFor
-  *updateVersion() {
-    const url = this.url;
+  updateVersion = task(
+    waitFor(async () => {
+      const url = this.url;
 
-    try {
-      yield fetch(url + '?_=' + Date.now())
-        .then((response) => {
-          if (!response.ok) throw new Error(response.statusText);
-          return response.text();
-        })
-        .then((res) => {
-          this.latestVersion = res ? res.trim() : undefined;
+      try {
+        await fetch(url + '?_=' + Date.now())
+          .then((response) => {
+            if (!response.ok) throw new Error(response.statusText);
+            return response.text();
+          })
+          .then((res) => {
+            this.latestVersion = res ? res.trim() : undefined;
 
-          // Call kept for compatibility with older version of the lib
-          if (this.isNewVersionAvailable) {
-            this.onNewVersion(
-              this.latestVersion,
-              this.ignoredVersions[this.ignoredVersions.length - 1] ||
-                this.currentVersion,
-            );
-          }
-        });
-    } catch (e) {
-      this.onError(e);
-    } finally {
-      let updateInterval = this.updateIntervalWithTesting;
-      if (updateInterval === null || updateInterval === undefined) {
-        updateInterval = ONE_MINUTE;
+            // Call kept for compatibility with older version of the lib
+            if (this.isNewVersionAvailable) {
+              this.onNewVersion(
+                this.latestVersion,
+                this.ignoredVersions[this.ignoredVersions.length - 1] ||
+                  this.currentVersion,
+              );
+            }
+          });
+      } catch (e) {
+        this.onError(e);
+      } finally {
+        let updateInterval = this.updateIntervalWithTesting;
+        if (updateInterval === null || updateInterval === undefined) {
+          updateInterval = ONE_MINUTE;
+        }
+
+        await timeout(updateInterval);
+
+        if (
+          Ember.testing &&
+          ++taskRunCounter > this._newVersionConfig.maxCountInTesting
+        ) {
+          // eslint-disable-next-line no-unsafe-finally
+          return;
+        }
+
+        if (Ember.testing && !this._newVersionConfig.enableInTests) {
+          // eslint-disable-next-line no-unsafe-finally
+          return;
+        }
+        this.updateVersion.perform();
       }
-
-      yield timeout(updateInterval);
-
-      if (
-        Ember.testing &&
-        ++taskRunCounter > this._newVersionConfig.maxCountInTesting
-      ) {
-        // eslint-disable-next-line no-unsafe-finally
-        return;
-      }
-
-      if (Ember.testing && !this._newVersionConfig.enableInTests) {
-        // eslint-disable-next-line no-unsafe-finally
-        return;
-      }
-      this.updateVersion.perform();
-    }
-  }
+    }),
+  );
 
   /**
    * Tells NewVersionService to ignore the given version.
