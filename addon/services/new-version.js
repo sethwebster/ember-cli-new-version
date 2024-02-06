@@ -109,7 +109,7 @@ export default class NewVersionService extends Service {
           () => {
             this.updateVersion.perform();
           },
-          this._newVersionConfig.firstCheckInterval
+          this._newVersionConfig.firstCheckInterval,
         );
       } else {
         this.updateVersion.perform();
@@ -136,7 +136,7 @@ export default class NewVersionService extends Service {
             this.onNewVersion(
               this.latestVersion,
               this.ignoredVersions[this.ignoredVersions.length - 1] ||
-                this.currentVersion
+                this.currentVersion,
             );
           }
         });

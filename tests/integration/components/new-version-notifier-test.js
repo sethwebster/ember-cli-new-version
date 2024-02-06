@@ -40,7 +40,7 @@ module('Integration | Component | new version notifier', function (hooks) {
     assert
       .dom('.update-notification')
       .containsText(
-        'This application has been updated from version v1.0.1 to v1.0.2. Please save any work, then refresh browser to see changes.'
+        'This application has been updated from version v1.0.1 to v1.0.2. Please save any work, then refresh browser to see changes.',
       );
   });
 

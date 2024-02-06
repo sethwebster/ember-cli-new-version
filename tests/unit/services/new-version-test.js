@@ -35,7 +35,7 @@ module('Unit | Service | new-version', function (hooks) {
         onNewVersion(newVersion, oldVersion) {
           throw `unexpected call to onNewVersion with ${newVersion}, ${oldVersion}`;
         }
-      }
+      },
     );
 
     this.owner.lookup('service:new-version');
@@ -58,7 +58,7 @@ module('Unit | Service | new-version', function (hooks) {
         ++callCount;
         return `v1.0.${callCount}`;
       },
-      { timing: 50 }
+      { timing: 50 },
     );
 
     this.owner.register(
@@ -68,16 +68,16 @@ module('Unit | Service | new-version', function (hooks) {
           assert.equal(
             newVersion,
             'v1.0.2',
-            'newVersion v1.0.2 is sent to onNewVersion'
+            'newVersion v1.0.2 is sent to onNewVersion',
           );
           assert.equal(
             oldVersion,
             'v1.0.1',
-            'oldVersion v1.0.1 is sent to onNewVersion'
+            'oldVersion v1.0.1 is sent to onNewVersion',
           );
           done();
         }
-      }
+      },
     );
 
     this.owner.lookup('service:new-version');
@@ -109,7 +109,7 @@ module('Unit | Service | new-version', function (hooks) {
         onError() {
           onErrorCalled = true;
         }
-      }
+      },
     );
 
     this.owner.lookup('service:new-version');
@@ -139,7 +139,7 @@ module('Unit | Service | new-version', function (hooks) {
         onNewVersion(newVersion, oldVersion) {
           throw `unexpected call to onNewVersion with ${newVersion}, ${oldVersion}`;
         }
-      }
+      },
     );
 
     this.owner.lookup('service:new-version');

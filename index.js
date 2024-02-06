@@ -21,7 +21,7 @@ module.exports = {
 
     baseConfig.newVersion = Object.assign(
       defaultConfiguration,
-      baseConfig.newVersion
+      baseConfig.newVersion,
     );
 
     if (!baseConfig.newVersion.currentVersion) {
