@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class NewVersionNotifier extends Component {
-  /** @type {import("ember-cli-new-version/services/new-version").default} */
+  /** @type {import("@eflexsystems/ember-cli-new-version/services/new-version").default} */
   @service newVersion;
 
   @tracked updateMessage =

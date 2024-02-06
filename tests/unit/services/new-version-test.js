@@ -1,5 +1,5 @@
 import { waitUntil } from '@ember/test-helpers';
-import NewVersionService from 'ember-cli-new-version/services/new-version';
+import NewVersionService from '@eflexsystems/ember-cli-new-version/services/new-version';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';

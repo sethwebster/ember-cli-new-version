@@ -1,5 +1,5 @@
 {
-  "name": "ember-cli-new-version",
+  "name": "@eflexsystems/ember-cli-new-version",
   "version": "4.1.0",
   "description": "A convention based update notification for Ember. With this addon, you can detect a new version and notify the user to refresh the page",
   "keywords": [
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sethwebster/ember-cli-new-version.git"
+    "url": "https://github.com/eflexsystems/ember-cli-new-version.git"
   },
   "license": "MIT",
   "author": "",

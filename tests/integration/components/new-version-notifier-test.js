@@ -1,5 +1,5 @@
 import { render, waitUntil } from '@ember/test-helpers';
-import NewVersionService from 'ember-cli-new-version/services/new-version';
+import NewVersionService from '@eflexsystems/ember-cli-new-version/services/new-version';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
