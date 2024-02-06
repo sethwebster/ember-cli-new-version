@@ -45,8 +45,6 @@ module('Integration | Component | new version notifier', function (hooks) {
   });
 
   test('it yields the current and last version to the block', async function (assert) {
-    assert.expect(9);
-
     let called = false;
     let callCount = 0;
 
@@ -68,7 +66,7 @@ module('Integration | Component | new version notifier', function (hooks) {
 
     await waitUntil(() => called, { timeout: 50 });
 
-    assert.equal(callCount, 1, '1 call was made');
+    assert.strictEqual(callCount, 1, '1 call was made');
     assert
       .dom('#version-value')
       .doesNotExist('no version displayed when no upgrade available');
@@ -79,13 +77,13 @@ module('Integration | Component | new version notifier', function (hooks) {
 
     await waitUntil(() => called, { timeout: 150 });
 
-    assert.equal(callCount, 2);
+    assert.strictEqual(callCount, 2);
     assert.dom('#version-value').hasText('v1.0.2');
     assert.dom('#last-version-value').hasText('v1.0.1');
     called = false;
 
     await waitUntil(() => called, { timeout: 250 });
-    assert.equal(callCount, 3);
+    assert.strictEqual(callCount, 3);
     assert.dom('#version-value').hasText('v1.0.3');
     assert.dom('#last-version-value').hasText('v1.0.1');
   });

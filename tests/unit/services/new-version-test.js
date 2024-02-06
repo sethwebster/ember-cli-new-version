@@ -20,8 +20,6 @@ module('Unit | Service | new-version', function (hooks) {
   setupMirage(hooks);
 
   test('one version', async function (assert) {
-    assert.expect(1);
-
     let callCount = 0;
 
     this.server.get('/VERSION.txt', function () {
@@ -41,11 +39,10 @@ module('Unit | Service | new-version', function (hooks) {
     this.owner.lookup('service:new-version');
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
-    assert.equal(callCount, 4);
+    assert.strictEqual(callCount, 4);
   });
 
   test('it calls onNewVersion when a new version is detected', async function (assert) {
-    assert.expect(2);
     let done = assert.async(2);
 
     let callCount = 0;
@@ -65,12 +62,12 @@ module('Unit | Service | new-version', function (hooks) {
       'service:new-version',
       class extends TestNewVersionService {
         onNewVersion(newVersion, oldVersion) {
-          assert.equal(
+          assert.strictEqual(
             newVersion,
             'v1.0.2',
             'newVersion v1.0.2 is sent to onNewVersion',
           );
-          assert.equal(
+          assert.strictEqual(
             oldVersion,
             'v1.0.1',
             'oldVersion v1.0.1 is sent to onNewVersion',
@@ -90,8 +87,6 @@ module('Unit | Service | new-version', function (hooks) {
   });
 
   test('it calls onError when request fails', async function (assert) {
-    assert.expect(1);
-
     let called = false;
 
     this.server.get('/VERSION.txt', function () {
@@ -119,8 +114,6 @@ module('Unit | Service | new-version', function (hooks) {
   });
 
   test('repeat on bad response', async function (assert) {
-    assert.expect(1);
-
     let callCount = 0;
 
     this.server.get('/VERSION.txt', function () {
@@ -145,6 +138,6 @@ module('Unit | Service | new-version', function (hooks) {
     this.owner.lookup('service:new-version');
 
     await waitUntil(() => callCount === 4, { timeout: 490 });
-    assert.equal(callCount, 4);
+    assert.strictEqual(callCount, 4);
   });
 });

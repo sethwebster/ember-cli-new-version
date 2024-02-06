@@ -154,10 +154,12 @@ export default class NewVersionService extends Service {
         Ember.testing &&
         ++taskRunCounter > this._newVersionConfig.maxCountInTesting
       ) {
+        // eslint-disable-next-line no-unsafe-finally
         return;
       }
 
       if (Ember.testing && !this._newVersionConfig.enableInTests) {
+        // eslint-disable-next-line no-unsafe-finally
         return;
       }
       this.updateVersion.perform();
