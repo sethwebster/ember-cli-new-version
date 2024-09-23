@@ -149,7 +149,7 @@ export default class NewVersionService extends Service {
       }
 
       yield timeout(updateInterval);
-
+      debugger;
       if (
         Ember.testing &&
         ++taskRunCounter > this._newVersionConfig.maxCountInTesting
