@@ -17,7 +17,7 @@
     "release": "standard-version"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": ">= 20"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -91,6 +91,6 @@
     "configPath": "tests/dummy/config"
   },
   "volta": {
-    "node": "14.18.1"
+    "node": "20.18.0"
   }
 }
