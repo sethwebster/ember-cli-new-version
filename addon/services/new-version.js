@@ -1,7 +1,6 @@
 import { getOwner } from '@ember/application';
 import { later } from '@ember/runloop';
 import Service from '@ember/service';
-import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
@@ -117,13 +116,11 @@ export default class NewVersionService extends Service {
     }
   }
 
-  @task
-  @waitFor
-  *updateVersion() {
+  updateVersion = task(async () => {
     const url = this.url;
 
     try {
-      yield fetch(url + '?_=' + Date.now())
+      await fetch(url + '?_=' + Date.now())
         .then((response) => {
           if (!response.ok) throw new Error(response.statusText);
           return response.text();
@@ -148,7 +145,7 @@ export default class NewVersionService extends Service {
         updateInterval = ONE_MINUTE;
       }
 
-      yield timeout(updateInterval);
+      await timeout(updateInterval);
 
       if (
         Ember.testing &&
@@ -162,7 +159,7 @@ export default class NewVersionService extends Service {
       }
       this.updateVersion.perform();
     }
-  }
+  });
 
   /**
    * Tells NewVersionService to ignore the given version.
